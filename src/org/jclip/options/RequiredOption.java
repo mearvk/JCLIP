@@ -1,5 +1,7 @@
 package org.jclip.options;
 
+import org.jclip.interfaces.OptionValidator;
+
 public class RequiredOption extends Option
 {
 	public RequiredOption(String key)
@@ -7,8 +9,8 @@ public class RequiredOption extends Option
 		super(key);	
 	}
 	
-	public RequiredOption(String key, String value)
+	public RequiredOption(String key, OptionValidator validator)
 	{
-		super(key,value);	
+		super(key,validator);	
 	}
 }

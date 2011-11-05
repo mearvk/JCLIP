@@ -52,6 +52,12 @@ public class Matcher
 						option.isPresent = true; 
 						break;
 					}
+					
+					//
+					if(!option.validator.validate(option.val))
+					{
+						throw new Exception(option.val+" didn't pass its validation test");
+					}
 				}
 			}
 						
