@@ -9,18 +9,13 @@ import org.jclip.options.RequiredOption;
 public class Test1
 {
 	public static void main(String...args)
-	{		
-		for(String arg : args)
-		{
-			//System.out.println(arg);
-		}
-		
+	{			
 		try
 		{
 			Matcher matcher = new Matcher();
 			matcher.setArgs(args);
 			matcher.setOptionGroups(new MyOptionGroups());			
-			matcher.findMatchingOptionGroup();
+			matcher.matchOptionGroup();
 			matcher.passControlToCallback();
 		}
 		catch(Exception e)

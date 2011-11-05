@@ -8,16 +8,15 @@ public abstract class Option
 	public String key = null;
 	public String val = null;
 	public Boolean isPresent = false;
-
 	
 	public Option(String key)
 	{
 		this.key = key;
 	}
 	
-	public Option(String key, String value)
+	public Option(String key, OptionValidator validator)
 	{
 		this.key = key;
-		this.val = value;
+		this.validator = validator;
 	}
 }

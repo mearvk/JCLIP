@@ -14,9 +14,20 @@ public class Matcher
 	public OptionGroup matchingGroup;
 	public ArrayList<Argument> arguments;
 	
+	public Matcher()
+	{
+		
+	}
+	
+	public Matcher(OptionGroups groups, String...args)
+	{
+		this.groups = groups;
+		this.arguments = new ArgParser().parseArgs(args);
+	}
+	
 	public void setArgs(String...args)
 	{
-		this.arguments = new ArgParser().parseArgs(args);		
+		this.arguments = new ArgParser().parseArgs(args);
 	}
 	
 	public void setOptionGroups(OptionGroups groups)
@@ -24,19 +35,17 @@ public class Matcher
 		this.groups = groups;
 	}
 	
-	public void findMatchingOptionGroup() throws Exception
-	{
-		//for each option group
+	public void matchArgsToOptionGroup() throws Exception
+	{		
 		for(OptionGroup group : groups.groups)
-		{
-			//for each option
+		{			
 			for(Option option : group.options)
-			{
-				//check to see if option is present in args
+			{				
 				for(Argument argument : arguments)
 				{
 					String optionKey = option.key;
 					String argumentKey = argument.key;
+					
 					
 					if(optionKey.equalsIgnoreCase(argumentKey))
 					{
