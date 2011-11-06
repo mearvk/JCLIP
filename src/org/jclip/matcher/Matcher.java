@@ -46,18 +46,19 @@ public class Matcher
 					String optionKey = option.key;
 					String argumentKey = argument.key;
 					
-					
+					//
 					if(optionKey.equalsIgnoreCase(argumentKey))
 					{
-						option.isPresent = true; 
+						option.isPresent = true;
+						
+						if(option.validator!=null && !option.validator.validate(argument.value))
+						{
+							throw new Exception(argument.value+" didn't pass its validation test");
+						}
+						else option.isValid = true;
+						 
 						break;
-					}
-					
-					//
-					if(!option.validator.validate(option.val))
-					{
-						throw new Exception(option.val+" didn't pass its validation test");
-					}
+					}					
 				}
 			}
 						

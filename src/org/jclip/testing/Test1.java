@@ -15,7 +15,7 @@ public class Test1
 			Matcher matcher = new Matcher();
 			matcher.setArgs(args);
 			matcher.setOptionGroups(new MyOptionGroups());			
-			matcher.matchOptionGroup();
+			matcher.matchArgsToOptionGroup();
 			matcher.passControlToCallback();
 		}
 		catch(Exception e)
@@ -46,3 +46,5 @@ class KeyCreatorCallback implements Callback
 		System.out.println("Let's create some keys!");
 	}	
 }
+
+//class CipherValueValidator

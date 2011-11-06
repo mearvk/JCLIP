@@ -4,10 +4,11 @@ import org.jclip.interfaces.OptionValidator;
 
 public abstract class Option
 {
-	public OptionValidator validator;
+	public OptionValidator validator = null;
 	public String key = null;
-	public String val = null;
+	//public String val = null;
 	public Boolean isPresent = false;
+	public Boolean isValid = false;
 	
 	public Option(String key)
 	{
