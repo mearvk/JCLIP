@@ -2,23 +2,15 @@ package org.jclip.matcher;
 
 import java.util.ArrayList;
 
-import org.jclip.args.ArgParser;
-import org.jclip.args.Argument;
 import org.jclip.args.Arguments;
 import org.jclip.options.OptionGroup;
 import org.jclip.options.OptionGroups;
 
 public class Matcher
 {
+	public OptionGroups matchingOptionGroups = new OptionGroups();
 	public OptionGroups optionGroups;
-	public OptionGroup matchingGroup;
-	public Arguments arguments;	
-	public OptionGroups matches = null;
-
-	public Matcher()
-	{
-
-	}
+	public Arguments arguments;		
 	
 	public Matcher(String... args)
 	{
@@ -43,14 +35,22 @@ public class Matcher
 
 	public void matchArgsToOptionGroup() throws Exception
 	{
-		matches = matchOptionGroupsOnRequiredOptions();
-		matches = matchOptionGroupsOnOptionalOptions();
+		//find the option groups that have at least the required options
+		matchOptionGroupsOnRequiredOptions();
+		
+		//from the set of matching option groups find the option group that has the correct optional options
+		matchOptionGroupsOnOptionalOptions();
 
-		doValidationOnOptionGroups(matches);
-		doValidationOnOptions(matches);
+		//do validation at the OptionGroup level
+		doValidationOnOptionGroups(matchingOptionGroups);
+		
+		//do validation at the Option level
+		doValidationOnOptions(matchingOptionGroups);
 
-		if (matches.groups.size() > 0) return;
+		//found a match so return
+		if (matchingOptionGroups.groups.size() > 0) return;
 
+		//inform the user of a non-match
 		throw new Exception("No match found");
 	}
 
@@ -64,44 +64,44 @@ public class Matcher
 		return false;
 	}
 
-	private OptionGroups matchOptionGroupsOnRequiredOptions()
-	{
-		OptionGroups matches = new OptionGroups();
-
-		for (OptionGroup group : optionGroups.groups)
-		{
-			ArrayList<String> requiredKeys = group.requiredKeys;
+	private void matchOptionGroupsOnRequiredOptions()
+	{					
+		//for each of the original option groups check if the required keys set contains all of the argument keys
+		for (OptionGroup optionGroup : optionGroups.groups)
+		{			
+			ArrayList<String> requiredKeys = optionGroup.requiredKeys;
 			ArrayList<String> argKeys = arguments.keyList;
 
+			//if there's a match put the OptionGroup into the set of matches
 			if (requiredKeys.containsAll(argKeys))
 			{
-				matches.groups.add(group);
+				matchingOptionGroups.groups.add(optionGroup);
 			}
-		}
-
-		return matches;
+		}		
 	}
 
-	private OptionGroups matchOptionGroupsOnOptionalOptions()
-	{
-		OptionGroups matches = new OptionGroups();
-
-		for (OptionGroup group : optionGroups.groups)
+	private void matchOptionGroupsOnOptionalOptions()
+	{			
+		//for each of the matched, required option groups check if the optional keys set contains all of the argument keys
+		for (OptionGroup optionGroup : matchingOptionGroups.groups)
 		{
-			ArrayList<String> optionalKeys = group.optionalKeys;
+			ArrayList<String> optionalKeys = optionGroup.optionalKeys;
 			ArrayList<String> argKeys = arguments.keyList;
-
-			if (optionalKeys.containsAll(argKeys))
+			
+			//if there's no match then remove the OptionGroup from the set of possible matches
+			if (optionalKeys.size()>0 && !optionalKeys.containsAll(argKeys))
 			{
-				matches.groups.add(group);
+				matchingOptionGroups.groups.remove(optionGroup);
 			}
 		}
-
-		return matches;
 	}
 
-	public void passControlToCallback()
+	public void passControlToCallbacks()
 	{
-		matches.groups.get(0).callback.execute();
+		//shouldn't be more than one match but for now...
+		for(OptionGroup group : matchingOptionGroups.groups)
+		{
+			group.callback.execute();
+		}		
 	}
 }

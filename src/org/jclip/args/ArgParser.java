@@ -1,7 +1,5 @@
 package org.jclip.args;
 
-import java.util.ArrayList;
-
 import org.apache.commons.lang.StringUtils;
 
 public class ArgParser

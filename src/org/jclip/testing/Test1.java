@@ -17,7 +17,7 @@ public class Test1
 			matcher.setArgs(args);
 			matcher.setOptionGroups(new KeyGeneratorOptionGroups());
 			matcher.matchArgsToOptionGroup();
-			matcher.passControlToCallback();
+			matcher.passControlToCallbacks();
 		}
 		catch (Exception e)
 		{
