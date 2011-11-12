@@ -1,6 +1,7 @@
 package org.jclip.testing;
 
 import org.jclip.interfaces.Callback;
+import org.jclip.interfaces.OptionValidator;
 import org.jclip.matcher.Matcher;
 import org.jclip.options.OptionGroup;
 import org.jclip.options.OptionGroups;
@@ -9,33 +10,33 @@ import org.jclip.options.RequiredOption;
 public class Test1
 {
 	public static void main(String...args)
-	{			
+	{
 		try
 		{
 			Matcher matcher = new Matcher();
 			matcher.setArgs(args);
-			matcher.setOptionGroups(new MyOptionGroups());			
-			matcher.matchArgsToOptionGroup();
+			matcher.setOptionGroups(new KeyGeneratorOptionGroups());
+			matcher.matchArgsToOptionGroup();			
 			matcher.passControlToCallback();
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
-		}				
+		}
 	}
 }
 
-class MyOptionGroups extends OptionGroups
+class KeyGeneratorOptionGroups extends OptionGroups
 {
-	public MyOptionGroups()
+	public KeyGeneratorOptionGroups()
 	{
-		OptionGroup one = new OptionGroup();
-		one.addOption(new RequiredOption("cipher"));
-		one.addOption(new RequiredOption("keylength"));
-		one.addOption(new RequiredOption("outputdir"));
-		one.addCallback(new KeyCreatorCallback());
-		this.groups.add(one);
-	}
+		OptionGroup createKeyGroup = new OptionGroup();
+		createKeyGroup.addRequiredOption(new RequiredOption("cipher", new CipherValueValidator()));
+		createKeyGroup.addRequiredOption(new RequiredOption("keylength"));
+		createKeyGroup.addRequiredOption(new RequiredOption("outputdir"));
+		createKeyGroup.addCallback(new KeyCreatorCallback());
+		this.groups.add(createKeyGroup);
+	}	
 }
 
 class KeyCreatorCallback implements Callback
@@ -47,4 +48,10 @@ class KeyCreatorCallback implements Callback
 	}	
 }
 
-//class CipherValueValidator
+class CipherValueValidator implements OptionValidator
+{
+	public Boolean validate(String value)
+	{
+		return value!=null && value.equalsIgnoreCase("rsa") || value.equalsIgnoreCase("aes");
+	}
+}
