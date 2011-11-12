@@ -34,7 +34,7 @@ class KeyGeneratorOptionGroups extends OptionGroups
 		createKeyGroup.addRequiredOption(new RequiredOption("cipher",new CipherValueValidator()));
 		createKeyGroup.addRequiredOption(new RequiredOption("keylength"));
 		createKeyGroup.addRequiredOption(new RequiredOption("outputdir"));
-		createKeyGroup.addRequiredOption(new RequiredOption("outputdirs"));
+		//createKeyGroup.addRequiredOption(new RequiredOption("outputdirs"));
 		createKeyGroup.addCallback(new KeyCreatorCallback());
 		this.groups.add(createKeyGroup);
 	}
