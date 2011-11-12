@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.jclip.args.ArgParser;
 import org.jclip.args.Argument;
+import org.jclip.args.Arguments;
 import org.jclip.options.OptionGroup;
 import org.jclip.options.OptionGroups;
 
@@ -11,26 +12,28 @@ public class Matcher
 {
 	public OptionGroups optionGroups;
 	public OptionGroup matchingGroup;
-	public ArrayList<Argument> arguments;
-	public ArrayList<String> argumentKeys;
+	public Arguments arguments;	
 	public OptionGroups matches = null;
 
 	public Matcher()
 	{
 
 	}
+	
+	public Matcher(String... args)
+	{
+		this.arguments = new Arguments(args);
+	}	
 
 	public Matcher(OptionGroups groups, String... args)
 	{
 		this.optionGroups = groups;
-		this.arguments = ArgParser.parseArgs(args);
-		this.argumentKeys = ArgParser.getKeys(arguments);
+		this.arguments = new Arguments(args);
 	}
 
 	public void setArgs(String... args)
 	{
-		this.arguments = ArgParser.parseArgs(args);
-		this.argumentKeys = ArgParser.getKeys(arguments);
+		this.arguments = new Arguments(args);
 	}
 
 	public void setOptionGroups(OptionGroups groups)
@@ -68,7 +71,7 @@ public class Matcher
 		for (OptionGroup group : optionGroups.groups)
 		{
 			ArrayList<String> requiredKeys = group.requiredKeys;
-			ArrayList<String> argKeys = argumentKeys;
+			ArrayList<String> argKeys = arguments.keyList;
 
 			if (requiredKeys.containsAll(argKeys))
 			{
@@ -86,7 +89,7 @@ public class Matcher
 		for (OptionGroup group : optionGroups.groups)
 		{
 			ArrayList<String> optionalKeys = group.optionalKeys;
-			ArrayList<String> argKeys = argumentKeys;
+			ArrayList<String> argKeys = arguments.keyList;
 
 			if (optionalKeys.containsAll(argKeys))
 			{

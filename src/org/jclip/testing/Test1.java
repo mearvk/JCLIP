@@ -31,8 +31,7 @@ class KeyGeneratorOptionGroups extends OptionGroups
 	public KeyGeneratorOptionGroups()
 	{
 		OptionGroup createKeyGroup = new OptionGroup();
-		createKeyGroup.addRequiredOption(new RequiredOption("cipher",
-				new CipherValueValidator()));
+		createKeyGroup.addRequiredOption(new RequiredOption("cipher",new CipherValueValidator()));
 		createKeyGroup.addRequiredOption(new RequiredOption("keylength"));
 		createKeyGroup.addRequiredOption(new RequiredOption("outputdir"));
 		createKeyGroup.addRequiredOption(new RequiredOption("outputdirs"));
@@ -55,7 +54,6 @@ class CipherValueValidator implements OptionValidator
 	@Override
 	public Boolean validate(String value)
 	{
-		return value != null && value.equalsIgnoreCase("rsa")
-				|| value.equalsIgnoreCase("aes");
+		return value != null && value.equalsIgnoreCase("rsa") || value.equalsIgnoreCase("aes");
 	}
 }
