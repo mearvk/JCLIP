@@ -5,10 +5,22 @@ import java.util.ArrayList;
 
 public class ArgParser
 {
-	public String[] prefixes = new String[]{"-","--"};
-	public String[] bridges = new String[]{"="};
+	public static String[] prefixes = new String[]{"-","--"};
+	public static String[] bridges = new String[]{"="};
 			
-	public ArrayList<Argument> parseArgs(String...args)
+	public static ArrayList<String> getKeys(ArrayList<Argument> arguments)
+	{
+		ArrayList<String> keys = new ArrayList<String>();
+		
+		for(Argument argument : arguments)
+		{
+			keys.add(argument.key);
+		}
+		
+		return keys;
+	}
+	
+	public static ArrayList<Argument> parseArgs(String...args)
 	{
 		ArrayList<Argument> arguments = new ArrayList<Argument>();
 		

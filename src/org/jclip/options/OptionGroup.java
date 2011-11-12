@@ -9,24 +9,34 @@ public class OptionGroup
 {
 	public OptionGroupValidator validator;
 	public Callback callback;
-	public ArrayList<Option> options = new ArrayList<Option>();
+	public ArrayList<RequiredOption> requiredOptions = new ArrayList<RequiredOption>();
+	public ArrayList<OptionalOption> optionalOptions = new ArrayList<OptionalOption>();
+	public ArrayList<String> requiredKeys = new ArrayList<String>();
+	public ArrayList<String> optionalKeys = new ArrayList<String>();
 	
 	public OptionGroup()
 	{
 		
 	}
 	
-	public void addOption(Option option)
+	public void addRequiredOption(RequiredOption option)
 	{
-		this.options.add(option);
+		requiredOptions.add(option);
+		requiredKeys.add(option.key);
 	}
+	
+	public void addOptionalOption(OptionalOption option)
+	{
+		optionalOptions.add(option);
+		optionalKeys.add(option.key);
+	}	
 
 	public void addCallback(Callback callback)
 	{
 		this.callback = callback;		
 	}
 	
-	public Boolean allOptionsPresent()
+	/*public Boolean allOptionsPresent()
 	{			
 		for(Option option : options)
 		{
@@ -34,5 +44,5 @@ public class OptionGroup
 		}
 		
 		return true;
-	}
+	}*/
 }

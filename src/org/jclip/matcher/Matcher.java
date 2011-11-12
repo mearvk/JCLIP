@@ -7,12 +7,16 @@ import org.jclip.args.Argument;
 import org.jclip.options.Option;
 import org.jclip.options.OptionGroup;
 import org.jclip.options.OptionGroups;
+import org.jclip.options.OptionalOption;
+import org.jclip.options.RequiredOption;
 
 public class Matcher
 {
-	public OptionGroups groups;
+	public OptionGroups optionGroups;
 	public OptionGroup matchingGroup;
 	public ArrayList<Argument> arguments;
+	public ArrayList<String> argumentKeys;
+	public OptionGroups matches = null; 
 	
 	public Matcher()
 	{
@@ -21,59 +25,83 @@ public class Matcher
 	
 	public Matcher(OptionGroups groups, String...args)
 	{
-		this.groups = groups;
-		this.arguments = new ArgParser().parseArgs(args);
+		this.optionGroups = groups;
+		this.arguments = ArgParser.parseArgs(args);
+		this.argumentKeys = ArgParser.getKeys(arguments);
 	}
 	
 	public void setArgs(String...args)
 	{
-		this.arguments = new ArgParser().parseArgs(args);
+		this.arguments = ArgParser.parseArgs(args);
+		this.argumentKeys = ArgParser.getKeys(arguments);
 	}
 	
 	public void setOptionGroups(OptionGroups groups)
 	{
-		this.groups = groups;
+		this.optionGroups = groups;
 	}
 	
 	public void matchArgsToOptionGroup() throws Exception
-	{		
-		for(OptionGroup group : groups.groups)
-		{			
-			for(Option option : group.options)
-			{				
-				for(Argument argument : arguments)
-				{
-					String optionKey = option.key;
-					String argumentKey = argument.key;
-					
-					//
-					if(optionKey.equalsIgnoreCase(argumentKey))
-					{
-						option.isPresent = true;
-						
-						if(option.validator!=null && !option.validator.validate(argument.value))
-						{
-							throw new Exception(argument.value+" didn't pass its validation test");
-						}
-						else option.isValid = true;
-						 
-						break;
-					}					
-				}
-			}
-						
-			if(group.allOptionsPresent())
-			{
-				this.matchingGroup = group;
-				return;
-			}				
-		}
+	{						
+		matches = matchOptionGroupsOnRequiredOptions();
+		matches = matchOptionGroupsOnOptionalOptions();
+		
+		doValidationOnOptionGroups(matches);
+		doValidationOnOptions(matches);
+		
+		if(matches.groups.size()>0) return;
 		
 		throw new Exception("No match found");
 	}
+	
+	private boolean doValidationOnOptionGroups(OptionGroups groups)
+	{
+		return false;
+	}
+	
+	private boolean doValidationOnOptions(OptionGroups groups)
+	{
+		return false;
+	}	
+	
+	private OptionGroups matchOptionGroupsOnRequiredOptions()
+	{		
+		OptionGroups matches = new OptionGroups();
+		
+		for(OptionGroup group : optionGroups.groups)
+		{
+			ArrayList<String> requiredKeys = group.requiredKeys;
+			ArrayList<String> argKeys = argumentKeys;
+			
+			if(argKeys.containsAll(requiredKeys))
+			{
+				matches.groups.add(group);
+			}
+		}
+		
+		return matches;
+	}	
+	
+	private OptionGroups matchOptionGroupsOnOptionalOptions()
+	{
+		OptionGroups matches = new OptionGroups();
+		
+		for(OptionGroup group : optionGroups.groups)
+		{
+			ArrayList<String> optionalKeys = group.optionalKeys;
+			ArrayList<String> argKeys = argumentKeys;
+			
+			if(argKeys.containsAll(optionalKeys))
+			{
+				matches.groups.add(group);
+			}
+		}
+		
+		return matches;
+	}		
 
 	public void passControlToCallback()
 	{		
-		matchingGroup.callback.execute();
+		matches.groups.get(0).callback.execute();
 	}
 }
