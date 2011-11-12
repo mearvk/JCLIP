@@ -9,14 +9,14 @@ import org.jclip.options.RequiredOption;
 
 public class Test1
 {
-	public static void main(String...args)
+	public static void main(String... args)
 	{
 		try
 		{
 			Matcher matcher = new Matcher();
 			matcher.setArgs(args);
 			matcher.setOptionGroups(new KeyGeneratorOptionGroups());
-			matcher.matchArgsToOptionGroup();			
+			matcher.matchArgsToOptionGroup();
 			matcher.passControlToCallback();
 		}
 		catch (Exception e)
@@ -31,12 +31,14 @@ class KeyGeneratorOptionGroups extends OptionGroups
 	public KeyGeneratorOptionGroups()
 	{
 		OptionGroup createKeyGroup = new OptionGroup();
-		createKeyGroup.addRequiredOption(new RequiredOption("cipher", new CipherValueValidator()));
+		createKeyGroup.addRequiredOption(new RequiredOption("cipher",
+				new CipherValueValidator()));
 		createKeyGroup.addRequiredOption(new RequiredOption("keylength"));
 		createKeyGroup.addRequiredOption(new RequiredOption("outputdir"));
+		createKeyGroup.addRequiredOption(new RequiredOption("outputdirs"));
 		createKeyGroup.addCallback(new KeyCreatorCallback());
 		this.groups.add(createKeyGroup);
-	}	
+	}
 }
 
 class KeyCreatorCallback implements Callback
@@ -45,13 +47,15 @@ class KeyCreatorCallback implements Callback
 	public void execute()
 	{
 		System.out.println("Let's create some keys!");
-	}	
+	}
 }
 
 class CipherValueValidator implements OptionValidator
 {
+	@Override
 	public Boolean validate(String value)
 	{
-		return value!=null && value.equalsIgnoreCase("rsa") || value.equalsIgnoreCase("aes");
+		return value != null && value.equalsIgnoreCase("rsa")
+				|| value.equalsIgnoreCase("aes");
 	}
 }

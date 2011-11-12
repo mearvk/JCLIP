@@ -6,11 +6,11 @@ public class RequiredOption extends Option
 {
 	public RequiredOption(String key)
 	{
-		super(key);	
+		super(key);
 	}
-	
+
 	public RequiredOption(String key, OptionValidator validator)
 	{
-		super(key,validator);	
+		super(key, validator);
 	}
 }
