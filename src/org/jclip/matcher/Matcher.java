@@ -3,12 +3,16 @@ package org.jclip.matcher;
 import java.util.ArrayList;
 
 import org.jclip.args.Arguments;
+import org.jclip.interfaces.OptionGroupValidator;
+import org.jclip.interfaces.OptionValidator;
+import org.jclip.options.Option;
 import org.jclip.options.OptionGroup;
 import org.jclip.options.OptionGroups;
 
 public class Matcher
 {
 	public OptionGroups matchingOptionGroups = new OptionGroups();
+	public OptionGroup matchingGroup = null;
 	public OptionGroups optionGroups;
 	public Arguments arguments;		
 	
@@ -42,10 +46,10 @@ public class Matcher
 		matchOptionGroupsOnOptionalOptions();
 
 		//do validation at the OptionGroup level
-		doValidationOnOptionGroups(matchingOptionGroups);
+		doValidationOnOptionGroup();
 		
 		//do validation at the Option level
-		doValidationOnOptions(matchingOptionGroups);
+		doValidationOnOptions();
 
 		//found a match so return
 		if (matchingOptionGroups.groups.size() > 0) return;
@@ -54,14 +58,30 @@ public class Matcher
 		throw new Exception("No match found");
 	}
 
-	private boolean doValidationOnOptionGroups(OptionGroups groups)
+	private boolean doValidationOnOptionGroup() throws Exception
 	{
-		return false;
+		OptionGroupValidator validator = (OptionGroupValidator) this.matchingGroup.validator;
+		
+		if(validator != null)
+		{
+			return validator.validateOptionGroup(this.matchingGroup);
+		}		
+		else return true;
 	}
 
-	private boolean doValidationOnOptions(OptionGroups groups)
+	private void doValidationOnOptions() throws Exception
 	{
-		return false;
+		for(Option option : matchingGroup.requiredOptions)
+		{
+			OptionValidator validator = option.validator;
+			String value = this.arguments.getOptionValueFromOptionKey(option.key);
+			
+			if(validator!=null)
+			{				
+				if(validator.validateOption(value)==false) 
+					throw new Exception("Option with key of '"+option.key+"' and value of '"+value+"' failed its validation routine!");				
+			}
+		}
 	}
 
 	private void matchOptionGroupsOnRequiredOptions()
@@ -80,7 +100,7 @@ public class Matcher
 		}		
 	}
 
-	private void matchOptionGroupsOnOptionalOptions()
+	private void matchOptionGroupsOnOptionalOptions() throws Exception
 	{			
 		//for each of the matched, required option groups check if the optional keys set contains all of the argument keys
 		for (OptionGroup optionGroup : matchingOptionGroups.groups)
@@ -94,6 +114,15 @@ public class Matcher
 				matchingOptionGroups.groups.remove(optionGroup);
 			}
 		}
+		
+		//the one and only, let's use it
+		if(matchingOptionGroups.groups.size()==1) this.matchingGroup = matchingOptionGroups.groups.get(0);
+		
+		//ended up matching on more than one OptionGroup; this is bad
+		if(matchingOptionGroups.groups.size()>1) throw new Exception("Oops, more than one match was found!");
+		
+		//no match found, let's jump back
+		if(matchingOptionGroups.groups.size()==0) throw new Exception("No match found!");
 	}
 
 	public void passControlToCallbacks()
