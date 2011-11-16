@@ -1,18 +1,13 @@
 package org.jclip.testing;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 
-import org.jclip.interfaces.Callback;
-import org.jclip.options.OptionGroup;
-import org.jclip.options.OptionGroups;
-import org.jclip.options.RequiredOption;
 import org.junit.Test;
 
 public class Test0 
 {
 	
+	@SuppressWarnings("unused")
 	@Test
 	public void doTest()
 	{

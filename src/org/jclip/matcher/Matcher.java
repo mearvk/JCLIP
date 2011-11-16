@@ -63,7 +63,7 @@ public class Matcher
 
 	private boolean doValidationOnOptionGroup() throws Exception
 	{
-		OptionGroupValidator validator = (OptionGroupValidator) this.matchingGroup.validator;
+		OptionGroupValidator validator = this.matchingGroup.validator;
 		
 		if(validator != null)
 		{
