@@ -18,6 +18,7 @@ public class OptionGroups
 			ArrayList<String> existingGroupRequiredKeys = existingGroup.requiredKeys;
 			ArrayList<String> existingGroupOptionalKeys = existingGroup.optionalKeys;
 			
+			//since list.equals doesn't work worth a damn...
 			if(newGroupRequiredKeys.containsAll(existingGroupRequiredKeys) && existingGroupRequiredKeys.containsAll(newGroupRequiredKeys))
 			if(newGroupOptionalKeys.containsAll(existingGroupOptionalKeys) && existingGroupOptionalKeys.containsAll(newGroupOptionalKeys))
 				throw new SetEqualityException();
