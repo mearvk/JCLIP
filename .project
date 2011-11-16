@@ -14,4 +14,10 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<variableList>
+		<variable>
+			<name>PROJECT_LIBS</name>
+			<value>$%7BPROJECT_LOC%7D/libs</value>
+		</variable>
+	</variableList>
 </projectDescription>
