@@ -37,42 +37,4 @@ public class Test0
 		
 		return;
 	}
-
-	class OptionGroups1 extends OptionGroups
-	{
-		public OptionGroups1() throws Exception
-		{
-			OptionGroup og1 = new OptionGroup();
-			og1.addRequiredOption(new RequiredOption("keylength"));
-			og1.addRequiredOption(new RequiredOption("cipher"));
-			og1.addCallback(new Callback1());
-			
-			this.addOptionGroup(og1);
-			
-			OptionGroup og2 = new OptionGroup();
-			og2.addRequiredOption(new RequiredOption("cipher"));
-			og2.addRequiredOption(new RequiredOption("keylength"));
-			og2.addCallback(new Callback2());
-			
-			this.addOptionGroup(og2);			
-		}
-	}
-	
-	class Callback1 implements Callback
-	{
-		@Override
-		public void execute()
-		{
-			Test4.actualResult = "Test4.Callback1";
-		}
-	}
-
-	class Callback2 implements Callback
-	{
-		@Override
-		public void execute()
-		{
-			Test4.actualResult = "Test4.Callback2";
-		}
-	}
 }
