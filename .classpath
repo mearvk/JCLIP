@@ -3,6 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Apache Commons 2.5 (Lang)"/>
-	<classpathentry kind="lib" path="C:/Users/Max Rupplin/My Projects/Eclipse Workspace/libraries/junit-4.10.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Home User/workspace/jclp/libs/junit-4.10.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Home User/workspace/jclp/libs/commons-lang3-3.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
