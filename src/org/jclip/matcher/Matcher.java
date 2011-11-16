@@ -3,6 +3,7 @@ package org.jclip.matcher;
 import java.util.ArrayList;
 
 import org.jclip.args.Arguments;
+import org.jclip.interfaces.Callback;
 import org.jclip.interfaces.OptionGroupValidator;
 import org.jclip.interfaces.OptionValidator;
 import org.jclip.options.Option;
@@ -15,6 +16,8 @@ public class Matcher
 	public OptionGroup matchingGroup = null;
 	public OptionGroups optionGroups;
 	public Arguments arguments;		
+	public Boolean failOnFindingUndefinedRequiredArgs = true;
+	//public Boolean failOnFindingUndefinedOptionalArgs = false;
 	
 	public Matcher(String... args)
 	{
@@ -25,7 +28,7 @@ public class Matcher
 	{
 		this.optionGroups = groups;
 		this.arguments = new Arguments(args);
-	}
+	}	
 
 	public void setArgs(String... args)
 	{
@@ -89,11 +92,18 @@ public class Matcher
 		//for each of the original option groups check if the required keys set contains all of the argument keys
 		for (OptionGroup optionGroup : optionGroups.groups)
 		{			
-			ArrayList<String> requiredKeys = optionGroup.requiredKeys;
+			ArrayList<String> requiredOptionKeys = optionGroup.requiredKeys;
 			ArrayList<String> argKeys = arguments.keyList;
-
-			//if there's a match put the OptionGroup into the set of matches
-			if (requiredKeys.containsAll(argKeys))
+			
+			
+			if(this.failOnFindingUndefinedRequiredArgs)
+			if (argKeys.equals(requiredOptionKeys)) //if there's a match put the OptionGroup into the set of matches
+			{
+				matchingOptionGroups.groups.add(optionGroup);
+			}
+			
+			if(!this.failOnFindingUndefinedRequiredArgs)
+			if (argKeys.containsAll(requiredOptionKeys))
 			{
 				matchingOptionGroups.groups.add(optionGroup);
 			}
@@ -105,11 +115,10 @@ public class Matcher
 		//for each of the matched, required option groups check if the optional keys set contains all of the argument keys
 		for (OptionGroup optionGroup : matchingOptionGroups.groups)
 		{
-			ArrayList<String> optionalKeys = optionGroup.optionalKeys;
+			ArrayList<String> optionalOptionKeys = optionGroup.optionalKeys;
 			ArrayList<String> argKeys = arguments.keyList;
-			
-			//if there's no match then remove the OptionGroup from the set of possible matches
-			if (optionalKeys.size()>0 && !optionalKeys.containsAll(argKeys))
+									
+			if (optionalOptionKeys.size()>0 && !optionalOptionKeys.containsAll(argKeys)) //if there's no match then remove the OptionGroup from the set of possible matches
 			{
 				matchingOptionGroups.groups.remove(optionGroup);
 			}
@@ -130,7 +139,11 @@ public class Matcher
 		//shouldn't be more than one match but for now...
 		for(OptionGroup group : matchingOptionGroups.groups)
 		{
-			group.callback.execute();
+			//an option group may have more than one callback
+			for(Callback callback : group.callbacks)
+			{
+				callback.execute();
+			}
 		}		
 	}
 }

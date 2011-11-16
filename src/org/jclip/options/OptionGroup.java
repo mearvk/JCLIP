@@ -6,13 +6,14 @@ import org.jclip.interfaces.Callback;
 import org.jclip.interfaces.OptionGroupValidator;
 
 public class OptionGroup
-{
-	public OptionGroupValidator validator;
-	public Callback callback;
+{	
 	public ArrayList<RequiredOption> requiredOptions = new ArrayList<RequiredOption>();
 	public ArrayList<OptionalOption> optionalOptions = new ArrayList<OptionalOption>();
+	public ArrayList<Option> allOptions = new ArrayList<Option>();
+	public ArrayList<Callback> callbacks = new ArrayList<Callback>();	
 	public ArrayList<String> requiredKeys = new ArrayList<String>();
 	public ArrayList<String> optionalKeys = new ArrayList<String>();
+	public OptionGroupValidator validator = null;
 
 	public OptionGroup()
 	{
@@ -21,25 +22,30 @@ public class OptionGroup
 
 	public void addRequiredOption(RequiredOption option)
 	{
+		//add to required options list
 		requiredOptions.add(option);
+		
+		//add to all options list
+		allOptions.add(option);
+		
+		//add the key (i.e. cipher=rsa) to the key list
 		requiredKeys.add(option.key);
 	}
 
 	public void addOptionalOption(OptionalOption option)
 	{
+		//add option to optional list
 		optionalOptions.add(option);
+		
+		//add option to all options list
+		allOptions.add(option);
+		
+		//add the key value to the list of optional keys
 		optionalKeys.add(option.key);
 	}
 
 	public void addCallback(Callback callback)
 	{
-		this.callback = callback;
+		this.callbacks.add(callback);
 	}
-
-	/*
-	 * public Boolean allOptionsPresent() { for(Option option : options) {
-	 * if(!option.isPresent) return false; }
-	 * 
-	 * return true; }
-	 */
 }
