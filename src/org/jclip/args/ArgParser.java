@@ -4,21 +4,21 @@ import org.apache.commons.lang3.StringUtils;
 
 public class ArgParser
 {
-	public Arguments arguments = null;
-	public String[] CLargs = null;
+	public Arguments processedArgs = null;
+	public String[] rawArgs = null;
 	
 	public String[] acceptedPrefixTokens = new String[]{ "--","-" };
 	public String[] acceptedBridgeTokens = new String[]{ "=" };	
 	
-	public ArgParser(Arguments arguments, String...CLargs)
+	public ArgParser(Arguments arguments, String...rawArgs)
 	{
-		this.arguments = arguments;
-		this.CLargs = CLargs;
+		this.processedArgs = arguments;
+		this.rawArgs = rawArgs;
 	}
 	
 	public void processArgs()
 	{
-		for (String arg : CLargs)
+		for (String arg : rawArgs)
 		{
 			String result = null;
 						
@@ -60,7 +60,7 @@ public class ArgParser
 			if(arg.startsWith(prefix))
 			{
 				//add prefix to prefix list
-				arguments.prefixList.add(prefix);
+				processedArgs.prefixList.add(prefix);
 				
 				//return the string minus the prefix
 				return StringUtils.removeStart(arg, prefix);
@@ -77,9 +77,15 @@ public class ArgParser
 		//knock off any leading/trailing whitespace(s)
 		arg = arg.trim();
 		
+		if(!hasBridgeToken(arg))
+		{
+			processedArgs.keyList.add(arg);
+			return arg;
+		}
+			
 		//check the arg for an acceptable bridge
 		for(String bridge : acceptedBridgeTokens)
-		{
+		{			
 			//try to locate a bridge
 			int bridgeLocation = arg.indexOf(bridge);
 			
@@ -90,7 +96,7 @@ public class ArgParser
 				String key = arg.substring(0,bridgeLocation);
 				
 				//add key to key list
-				arguments.keyList.add(key);
+				processedArgs.keyList.add(key);
 				
 				//return the string minus the key
 				return StringUtils.removeStart(arg, key);
@@ -117,14 +123,16 @@ public class ArgParser
 			if(bridgeLocation != -1)
 			{
 				//add bridge to the list of bridges
-				arguments.bridgeList.add(bridge);
+				processedArgs.bridgeList.add(bridge);
 				
 				//return the string minus the bridge
 				return StringUtils.removeStart(arg, bridge);
 			}
-		}		
+		}
 		
-		throw new Exception("No valid bridge found for argument '"+arg+"'");
+		return arg;
+		
+		//throw new Exception("No valid bridge found for argument '"+arg+"'");
 	}
 	
 	private String stripAndSaveValue(String arg) throws Exception
@@ -135,9 +143,19 @@ public class ArgParser
 		arg = arg.trim();		
 				
 		//add arg value (even if "") to value list
-		arguments.valueList.add(arg);		
+		processedArgs.valueList.add(arg);		
 		
 		//return the string (now it should be empty)
-		return StringUtils.removeStart(arg,arg);	
-	}		
+		return "";	
+	}
+	
+	private Boolean hasBridgeToken(String arg)
+	{ 		
+		for(String bridge : acceptedBridgeTokens)
+		{
+			if(arg.contains(bridge)) return true;
+		}
+		
+		return false;
+	}
 }

@@ -37,7 +37,7 @@ public class Test4
 		catch (Exception e)
 		{			
 			assertTrue(e instanceof SetEqualityException);
-			e.printStackTrace();
+			//e.printStackTrace();
 		}		
 	}
 	

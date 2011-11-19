@@ -9,7 +9,7 @@ public class Arguments
 	public ArrayList<String> keyList = new ArrayList<String>();
 	public ArrayList<String> valueList = new ArrayList<String>();
 	
-	public Arguments(String...args)
+	public Arguments(String[] args)
 	{
 		new ArgParser(this,args).processArgs();
 	}
