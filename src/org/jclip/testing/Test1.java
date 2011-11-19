@@ -29,8 +29,8 @@ public class Test1
 			Matcher matcher = new Matcher();
 			matcher.setArgs(args);
 			matcher.setOptionGroups(new OptionGroups1());
-			matcher.matchArgsToOptionGroup();
-			matcher.passControlToCallbacks();
+			matcher.match();
+			matcher.doCallbacks();
 			assertTrue("Test1 failed", expectedResult.equals(actualResult));			
 		}
 		catch (Exception e)

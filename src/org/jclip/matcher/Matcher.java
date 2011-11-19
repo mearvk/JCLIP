@@ -1,15 +1,9 @@
 package org.jclip.matcher;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
-
 import org.jclip.args.Arguments;
 import org.jclip.interfaces.Callback;
-import org.jclip.interfaces.OptionGroupValidator;
-import org.jclip.interfaces.OptionValidator;
-import org.jclip.options.Option;
 import org.jclip.options.OptionGroup;
 import org.jclip.options.OptionGroups;
 
@@ -51,7 +45,7 @@ public class Matcher
 		this.optionGroups = groups;
 	}
 
-	public void matchArgsToOptionGroup() throws Exception
+	public OptionGroup match() throws Exception
 	{
 		//find the option groups that have at least the required options
 		matchOptionGroupsOnRequiredOptions();
@@ -59,45 +53,17 @@ public class Matcher
 		//from the set of matching option groups find the option group that has the correct optional options
 		matchOptionGroupsOnOptionalOptions();
 		
-		//
+		//try and find a perfect match
 		finalizeMatchingOptionGroups();
 
-		//do validation at the OptionGroup level
-		//if(this.matchingGroup.validator!=null)
-		//	doValidationOnOptionGroup();
-		
-		//do validation at the Option level		
-		//doValidationOnOptions();
-
 		//found a match so return
-		if (matchingGroup != null) return;
+		if (matchingGroup != null) return this.matchingGroup;
 
 		//inform the user of a non-match
 		throw new Exception("No match found");
 	}
-
-	private boolean doValidationOnOptionGroup() throws Exception
-	{
-		OptionGroupValidator validator = this.matchingGroup.validator;
-		
-		return validator.validateOptionGroup(this.matchingGroup);			
-	}
-
-	private void doValidationOnOptions() throws Exception
-	{
-		for(Option option : matchingGroup.requiredOptions)
-		{
-			OptionValidator validator = option.validator;
-			String value = this.arguments.getOptionValueFromOptionKey(option.key);
-			
-			if(validator!=null)
-			{				
-				if(validator.validateOption(value)==false) 
-					throw new Exception("Option with key of '"+option.key+"' and value of '"+value+"' failed its validation routine!");				
-			}
-		}
-	}
 	
+	@SuppressWarnings("unchecked")
 	private void finalizeMatchingOptionGroups() throws Exception
 	{
 		ArrayList<OptionGroup> reqMatches = this.matchedRequiredArgs;
@@ -108,10 +74,10 @@ public class Matcher
 		perfectMatches.retainAll(optMatches);
 		
 		//remove imperfect matches			
-		for	(Iterator i=perfectMatches.iterator(); i.hasNext();)
+		for	(Iterator<OptionGroup> i=perfectMatches.iterator(); i.hasNext();)
 		{
 			//next group in the list
-			OptionGroup group = (OptionGroup) i.next();
+			OptionGroup group = i.next();
 			
 			//if group has unknown args remove it from list of perfect matches
 			if(getUnknownArgCount(group)!=0) 
@@ -125,6 +91,7 @@ public class Matcher
 		if(perfectMatches.size()==1) this.matchingGroup = perfectMatches.get(0);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private int getUnknownArgCount(OptionGroup group)
 	{
 		ArrayList<String> requiredKeys = group.requiredKeys;
@@ -174,7 +141,7 @@ public class Matcher
 
 	}
 
-	public void passControlToCallbacks()
+	public void doCallbacks()
 	{
 		for(Callback callback : this.matchingGroup.callbacks)
 			callback.execute();

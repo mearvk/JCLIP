@@ -30,8 +30,8 @@ public class Test6
 		{
 			Matcher matcher = new Matcher(args);
 			matcher.setOptionGroups(new OptionGroups1());
-			matcher.matchArgsToOptionGroup();
-			matcher.passControlToCallbacks();
+			matcher.match();
+			matcher.doCallbacks();
 			assertTrue("Expected result was '"+expectedResult+"', actual result was '"+actualResult+"'", expectedResult.equals(actualResult));
 		}
 		catch (Exception e)

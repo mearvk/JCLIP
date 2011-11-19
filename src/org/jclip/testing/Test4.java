@@ -30,8 +30,8 @@ public class Test4
 			Matcher matcher = new Matcher();
 			matcher.setArgs(args);
 			matcher.setOptionGroups(new OptionGroups1());
-			matcher.matchArgsToOptionGroup();
-			matcher.passControlToCallbacks();
+			matcher.match();
+			matcher.doCallbacks();
 			fail("Test4 failed");
 		}
 		catch (Exception e)

@@ -12,18 +12,5 @@ public class Arguments
 	public Arguments(String[] args)
 	{
 		new ArgParser(this,args).processArgs();
-	}
-	
-	public String getOptionValueFromOptionKey(String s) throws Exception
-	{
-		for(String key : keyList)
-		{
-			if(key.equalsIgnoreCase(s))
-			{
-				return valueList.get(keyList.indexOf(key));
-			}
-		}
-		
-		throw new Exception("No key-value pair found for key '"+s+"'");
-	}
+	}	
 }
