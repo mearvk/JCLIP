@@ -3,6 +3,8 @@ package org.jclip;
 import org.jclip.matcher.Matcher;
 import org.jclip.options.OptionGroup;
 import org.jclip.options.OptionGroups;
+import org.jclip.validation.ValidationData;
+import org.jclip.validation.ValidationErrorException;
 import org.jclip.validation.Validator;
 
 /**
@@ -24,10 +26,10 @@ public class JCLIP
 	 * @throws Exception Kick it back up a level so you can handle exceptions in your own code if you like
 	 * @author Max Rupplin
 	 */
-	public JCLIP(String...args) throws Exception
+	public JCLIP(OptionGroups optionGroups, String...args) throws Exception
 	{
 		//create and initialize a Matcher in order to perform CLI matching
-		matcher = new Matcher(args);
+		matcher = new Matcher(optionGroups, args);
 		
 		//create and initialize a Validator in order to perform validation on parameter values
 		validator = new Validator(args);	
@@ -84,9 +86,16 @@ public class JCLIP
 	public void validateValues() throws Exception
 	{
 		if(this.validator==null) throw new NullPointerException("Validator cannot be null!");
+		
 		if(this.matchingGroup==null) throw new NullPointerException("Must parse command line arguments before validating the associated values!");
 		
 		this.validator.validate(this.matchingGroup);
+		
+		if(ValidationData.hasNotes())
+			ValidationData.printNotes();
+		
+		if(ValidationData.hasErrors())
+			throw new ValidationErrorException();
 	}
 	
 	/**

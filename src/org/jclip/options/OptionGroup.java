@@ -43,6 +43,11 @@ public class OptionGroup
 		//add the key value to the list of optional keys
 		optionalKeys.add(option.key);
 	}
+	
+	public void addValidator(OptionGroupValidator validator)
+	{
+		this.validator = validator;
+	}
 
 	public void addCallback(Callback callback)
 	{

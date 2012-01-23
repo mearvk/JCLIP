@@ -1,6 +1,8 @@
 package org.jclip.validation;
 
 import org.jclip.args.Arguments;
+import org.jclip.exceptions.NoOptionGroupException;
+import org.jclip.exceptions.NoOptionGroupValidatorException;
 import org.jclip.options.Option;
 import org.jclip.options.OptionGroup;
 import org.jclip.utils.OptionProcessingUtils;
@@ -14,16 +16,18 @@ public class Validator
 		this.args=new Arguments(args);
 	}
 	
-	public void validate(OptionGroup group)
+	public void validate(OptionGroup group) throws Exception
 	{
 		validateOptionGroup(group);
 		validateIndividualOptions(group);
 	}
 	
-	public void validateOptionGroup(OptionGroup group)
+	public void validateOptionGroup(OptionGroup group) throws Exception
 	{
-		if(group==null) throw new NullPointerException();
-		if(group.validator==null) return;
+		if(group==null) throw new NoOptionGroupException();
+		
+		if(group.validator==null) throw new NoOptionGroupValidatorException();
+
 		
 		try 
 		{

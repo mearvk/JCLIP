@@ -2,7 +2,9 @@ package org.jclip.matcher;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import org.jclip.args.Arguments;
+import org.jclip.exceptions.NoOptionGroupsException;
 import org.jclip.interfaces.Callback;
 import org.jclip.options.OptionGroup;
 import org.jclip.options.OptionGroups;
@@ -110,6 +112,8 @@ public class Matcher
 
 	private void matchOptionGroupsOnRequiredOptions() throws Exception
 	{		 	
+		if(optionGroups== null || optionGroups.groups == null) throw new NoOptionGroupsException();
+		
 		//for each of the original option groups check if the required keys set contains all of the argument keys
 		for (OptionGroup optionGroup : optionGroups.groups)
 		{			

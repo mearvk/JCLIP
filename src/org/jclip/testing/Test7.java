@@ -1,6 +1,7 @@
 package org.jclip.testing;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+
 import org.jclip.interfaces.Callback;
 import org.jclip.matcher.Matcher;
 import org.jclip.options.OptionGroup;
