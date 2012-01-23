@@ -52,7 +52,7 @@ public class Test6
 			og1.addOptionalOption(new OptionalOption("opt2"));
 			og1.addCallback(new Callback1());
 			
-			this.addOptionGroup(og1);
+			OptionGroups.addOptionGroup(og1);
 			
 			OptionGroup og2 = new OptionGroup();
 			og2.addRequiredOption(new RequiredOption("keylength"));
@@ -61,7 +61,7 @@ public class Test6
 			og2.addOptionalOption(new OptionalOption("opt2"));
 			og2.addCallback(new Callback2());
 			
-			this.addOptionGroup(og2);			
+			OptionGroups.addOptionGroup(og2);			
 		}
 	}
 

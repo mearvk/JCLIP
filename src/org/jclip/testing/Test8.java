@@ -30,19 +30,8 @@ public class Test8
 	{
 		try 
 		{
-			JCLIP runner = new JCLIP(new OptionGroups1(), args);
-			runner.run();
-		} 
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	class OptionGroups1 extends OptionGroups
-	{
-		public OptionGroups1() throws Exception
-		{
+			JCLIP runner = new JCLIP(args);
+			
 			OptionGroup og0 = new OptionGroup();
 			og0.addRequiredOption(new RequiredOption("keylength"));
 			og0.addRequiredOption(new RequiredOption("cipher"));
@@ -51,8 +40,14 @@ public class Test8
 			og0.addOptionalOption(new OptionalOption("opt2"));
 			og0.addCallback(new Callback0());
 			og0.addValidator(new Validator0());
-		
-			this.addOptionGroup(og0);
+			
+			OptionGroups.addOptionGroup(og0);
+			
+			runner.run();
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
 		}
 	}
 	
@@ -74,7 +69,7 @@ public class Test8
 			
 			if(cipherValue.equals("rsad")) return;
 			
-			ValidationData.addOptionGroupError("Was expecting 'cipher=rsad' but found instead 'cipher="+cipherValue+"'");
+			ValidationData.addOptionGroupError("Expected 'cipher=rsad' but found instead 'cipher="+cipherValue+"'.");
 		}
 	}
 

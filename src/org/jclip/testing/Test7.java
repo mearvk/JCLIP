@@ -54,7 +54,7 @@ public class Test7
 			og0.addCallback(new Callback0());
 			
 			//super set
-			this.addOptionGroup(og0);		
+			OptionGroups.addOptionGroup(og0);		
 			
 			OptionGroup og1 = new OptionGroup();
 			og1.addRequiredOption(new RequiredOption("keylength"));
@@ -65,7 +65,7 @@ public class Test7
 			og1.addCallback(new Callback1());
 			
 			//proper set
-			this.addOptionGroup(og1);
+			OptionGroups.addOptionGroup(og1);
 			
 			OptionGroup og2 = new OptionGroup();
 			og2.addRequiredOption(new RequiredOption("keylength"));
@@ -75,7 +75,7 @@ public class Test7
 			og2.addCallback(new Callback2());
 			
 			//subset
-			this.addOptionGroup(og2);			
+			OptionGroups.addOptionGroup(og2);			
 		}
 	}
 

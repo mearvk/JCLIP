@@ -50,7 +50,7 @@ public class Test1
 			createKeyGroup.addRequiredOption(new RequiredOption("outputdir"));
 			createKeyGroup.addCallback(new Callback1());
 			
-			this.addOptionGroup(createKeyGroup);
+			OptionGroups.addOptionGroup(createKeyGroup);
 		}
 	}
 

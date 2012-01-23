@@ -50,14 +50,14 @@ public class Test3
 			og1.addRequiredOption(new RequiredOption("outputdir"));
 			og1.addCallback(new Callback1());
 			
-			this.addOptionGroup(og1);
+			OptionGroups.addOptionGroup(og1);
 			
 			OptionGroup og2 = new OptionGroup();
 			og2.addRequiredOption(new RequiredOption("cipher"));
 			og2.addRequiredOption(new RequiredOption("keylength"));
 			og2.addCallback(new Callback2());
 			
-			this.addOptionGroup(og2);			
+			OptionGroups.addOptionGroup(og2);			
 		}
 	}
 

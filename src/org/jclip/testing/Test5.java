@@ -53,7 +53,7 @@ public class Test5
 			og1.addOptionalOption(new OptionalOption("opt2"));
 			og1.addCallback(new Callback1());
 			
-			this.addOptionGroup(og1);		
+			OptionGroups.addOptionGroup(og1);		
 		}
 	}
 

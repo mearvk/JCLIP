@@ -26,10 +26,10 @@ public class JCLIP
 	 * @throws Exception Kick it back up a level so you can handle exceptions in your own code if you like
 	 * @author Max Rupplin
 	 */
-	public JCLIP(OptionGroups optionGroups, String...args) throws Exception
+	public JCLIP(String...args) throws Exception
 	{
 		//create and initialize a Matcher in order to perform CLI matching
-		matcher = new Matcher(optionGroups, args);
+		matcher = new Matcher(args);
 		
 		//create and initialize a Validator in order to perform validation on parameter values
 		validator = new Validator(args);	

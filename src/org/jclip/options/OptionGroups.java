@@ -6,9 +6,9 @@ import org.jclip.exceptions.SetEqualityException;
 
 public class OptionGroups
 {
-	public ArrayList<OptionGroup> groups = new ArrayList<OptionGroup>();
+	public static ArrayList<OptionGroup> groups = new ArrayList<OptionGroup>();
 	
-	public void addOptionGroup(OptionGroup newGroup) throws Exception
+	public static void addOptionGroup(OptionGroup newGroup) throws Exception
 	{
 		ArrayList<String> newGroupRequiredKeys = newGroup.requiredKeys;
 		ArrayList<String> newGroupOptionalKeys = newGroup.optionalKeys;
@@ -25,5 +25,5 @@ public class OptionGroups
 		}
 		
 		groups.add(newGroup);
-	}		
+	}	
 }
