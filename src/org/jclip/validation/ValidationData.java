@@ -18,6 +18,11 @@ public class ValidationData
 	{
 		return optionGroupErrors.size()>0 || optionErrors.size()>0;
 	}
+	
+	public static void addNote(String msg)
+	{
+		notes.add(msg);
+	}
 			
 	public static void addOptionGroupError(String msg)
 	{

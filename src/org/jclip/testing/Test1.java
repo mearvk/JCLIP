@@ -29,7 +29,7 @@ public class Test1
 		{
 			Matcher matcher = new Matcher();
 			matcher.setArgs(args);
-			matcher.setOptionGroups(new OptionGroups1());
+			//matcher.setOptionGroups(new OptionGroups1());
 			matcher.match();
 			matcher.doCallbacks();
 			assertTrue("Test1 failed", expectedResult.equals(actualResult));			

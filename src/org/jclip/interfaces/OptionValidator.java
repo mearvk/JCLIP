@@ -2,5 +2,5 @@ package org.jclip.interfaces;
 
 public interface OptionValidator
 {
-	public Boolean validateOption(String value);
+	public void validateOption(String value) throws Exception;
 }

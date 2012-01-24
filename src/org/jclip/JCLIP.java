@@ -54,17 +54,6 @@ public class JCLIP
 	}
 	
 	/**
-	 * Public setter for the OptionGroups object; may be unnecessary
-	 * 
-	 * @param groups The OptionGroups defined by the user which contain matching/validation information
-	 * @author Max Rupplin
-	 */
-	public void setOptionGroups(OptionGroups groups)
-	{
-		this.matcher.optionGroups=groups;
-	}
-	
-	/**
 	 * Parses the command line arguments, then attempts to match them a single OptionGroup
 	 * 
 	 * @throws Exception Typically this will be thrown if no match is found or perhaps more than one match

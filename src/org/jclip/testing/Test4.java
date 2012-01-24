@@ -31,7 +31,7 @@ public class Test4
 		{
 			Matcher matcher = new Matcher();
 			matcher.setArgs(args);
-			matcher.setOptionGroups(new OptionGroups1());
+			//matcher.setOptionGroups(new OptionGroups1());
 			matcher.match();
 			matcher.doCallbacks();
 			fail("Test4 failed");

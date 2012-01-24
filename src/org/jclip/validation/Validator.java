@@ -26,7 +26,7 @@ public class Validator
 	{
 		if(group==null) throw new NoOptionGroupException();
 		
-		if(group.validator==null) throw new NoOptionGroupValidatorException();
+		if(group.validator==null) return;
 
 		
 		try 

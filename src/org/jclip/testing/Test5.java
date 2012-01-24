@@ -30,7 +30,7 @@ public class Test5
 		{
 			Matcher matcher = new Matcher();
 			matcher.setArgs(args);
-			matcher.setOptionGroups(new OptionGroups1());
+			//matcher.setOptionGroups(new OptionGroups1());
 			matcher.match();
 			matcher.doCallbacks();
 			assertTrue(expectedResult.equals(actualResult));

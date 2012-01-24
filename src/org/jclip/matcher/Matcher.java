@@ -13,7 +13,7 @@ public class Matcher
 {
 	public OptionGroups matchingOptionGroups = new OptionGroups();
 	public OptionGroup matchingGroup = null;
-	public OptionGroups optionGroups;
+	//public OptionGroups optionGroups;
 	public Arguments arguments;		
 	//public Boolean failOnFindingUndefinedArgs = true;
 	public ArrayList<OptionGroup> matchedRequiredArgs = new ArrayList<OptionGroup>();
@@ -29,22 +29,11 @@ public class Matcher
 		if(args==null || args.length==0) throw new Exception("Matcher requires non-null and non-empty arguments parameter.");
 		
 		this.arguments = new Arguments(args);
-	}	
-
-	public Matcher(OptionGroups groups, String... args)
-	{
-		this.optionGroups = groups;
-		this.arguments = new Arguments(args);
-	}	
+	}		
 
 	public void setArgs(String... args)
 	{
 		this.arguments = new Arguments(args);
-	}
-
-	public void setOptionGroups(OptionGroups groups)
-	{
-		this.optionGroups = groups;
 	}
 
 	public OptionGroup match() throws Exception
@@ -112,10 +101,10 @@ public class Matcher
 
 	private void matchOptionGroupsOnRequiredOptions() throws Exception
 	{		 	
-		if(optionGroups== null || optionGroups.groups == null) throw new NoOptionGroupsException();
+		if(OptionGroups.groups == null || OptionGroups.groups == null) throw new NoOptionGroupsException();
 		
 		//for each of the original option groups check if the required keys set contains all of the argument keys
-		for (OptionGroup optionGroup : optionGroups.groups)
+		for (OptionGroup optionGroup : OptionGroups.groups)
 		{			
 			ArrayList<String> requiredOptionKeys = optionGroup.requiredKeys;
 			ArrayList<String> argKeys = arguments.keyList;			 
@@ -131,7 +120,7 @@ public class Matcher
 	private void matchOptionGroupsOnOptionalOptions() throws Exception
 	{			
 		//for each of the matched, required option groups check if the optional keys set contains all of the argument keys
-		for (OptionGroup optionGroup : optionGroups.groups)
+		for (OptionGroup optionGroup : OptionGroups.groups)
 		{
 			ArrayList<String> optionalOptionKeys = optionGroup.optionalKeys;
 			ArrayList<String> argKeys = arguments.keyList;
