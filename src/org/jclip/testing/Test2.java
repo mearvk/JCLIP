@@ -3,6 +3,7 @@ package org.jclip.testing;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.jclip.args.CommandLineArguments;
 import org.jclip.interfaces.Callback;
 import org.jclip.matcher.Matcher;
 import org.jclip.options.OptionGroup;
@@ -27,24 +28,11 @@ public class Test2
 	{
 		try
 		{
-			Matcher matcher = new Matcher();
-			matcher.setArgs(args);
-			//matcher.setOptionGroups(new OptionGroups1());
-			matcher.match();
-			matcher.doCallbacks();
-			assertTrue("Test2 failed", expectedResult.equals(actualResult));	
-		}
-		catch (Exception e)
-		{
-			fail(e.getMessage());
-		}
-	}
-	
-	class OptionGroups1 extends OptionGroups
-	{
-		public OptionGroups1() throws Exception
-		{
-			OptionGroup og1 = new OptionGroup();
+			OptionGroups.resetState();
+			
+			CommandLineArguments.processAndStoreRawArgs(args);
+			
+			OptionGroup og1 = new OptionGroup("Test2.og1");
 			og1.addRequiredOption(new RequiredOption("cipher"));
 			og1.addRequiredOption(new RequiredOption("keylength"));
 			og1.addRequiredOption(new RequiredOption("outputdir"));
@@ -52,13 +40,25 @@ public class Test2
 			
 			OptionGroups.addOptionGroup(og1);
 			
-			OptionGroup og2 = new OptionGroup();
+			OptionGroup og2 = new OptionGroup("Test2.og2");
 			og2.addRequiredOption(new RequiredOption("cipher"));
 			og2.addRequiredOption(new RequiredOption("keylength"));
 			og2.addCallback(new Callback2());
 			
-			OptionGroups.addOptionGroup(og2);			
+			OptionGroups.addOptionGroup(og2);				
+			
+			Matcher matcher = new Matcher();
+			matcher.match();
+			matcher.doCallbacks();
+			
+			assertTrue("Test2 failed", expectedResult.equals(actualResult));
 		}
+		catch (Exception e)
+		{
+			fail(e.getMessage());
+		}
+		
+		TestHarness.lock.notify();
 	}
 
 	class Callback1 implements Callback

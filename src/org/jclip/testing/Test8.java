@@ -1,9 +1,11 @@
 package org.jclip.testing;
 
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 
 import org.jclip.JCLIP;
-import org.jclip.args.Arguments;
+import org.jclip.args.CommandLineArguments;
 import org.jclip.exceptions.DerpException;
 import org.jclip.interfaces.Callback;
 import org.jclip.interfaces.OptionGroupValidator;
@@ -12,6 +14,7 @@ import org.jclip.options.OptionGroups;
 import org.jclip.options.OptionalOption;
 import org.jclip.options.RequiredOption;
 import org.jclip.validation.ValidationData;
+import org.jclip.validation.ValidationErrorException;
 import org.junit.Test;
 
 
@@ -32,7 +35,9 @@ public class Test8
 		{
 			JCLIP runner = new JCLIP(args);
 			
-			OptionGroup og0 = new OptionGroup();
+			OptionGroups.resetState();
+			
+			OptionGroup og0 = new OptionGroup("Test8.og0");
 			og0.addRequiredOption(new RequiredOption("keylength"));
 			og0.addRequiredOption(new RequiredOption("cipher"));
 			og0.addRequiredOption(new RequiredOption("outputdir"));
@@ -47,8 +52,12 @@ public class Test8
 		} 
 		catch (Exception e) 
 		{
-			e.printStackTrace();
+			boolean b = e instanceof ValidationErrorException;
+			
+			assertTrue("Test 8 failed", b);
 		}
+		
+		TestHarness.lock.notify();
 	}
 	
 	class Validator0 implements OptionGroupValidator
@@ -56,8 +65,8 @@ public class Test8
 		@Override
 		public void validateOptionGroup(OptionGroup group) throws Exception 
 		{
-			ArrayList<String> keys = Arguments.keyList;
-			ArrayList<String> vals = Arguments.valueList;
+			ArrayList<String> keys = CommandLineArguments.keyList;
+			ArrayList<String> vals = CommandLineArguments.valueList;
 			
 			int cipherIndex = keys.indexOf("cipher");
 			

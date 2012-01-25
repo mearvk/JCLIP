@@ -1,10 +1,10 @@
 package org.jclip.utils;
 
-import org.jclip.args.Arguments;
+import org.jclip.args.CommandLineArguments;
 
 public class OptionProcessingUtils 
 {
-	public static String getOptionValueFromOptionKey(String s, Arguments args) throws Exception
+	public static String getOptionValueFromOptionKey(String s, CommandLineArguments args) throws Exception
 	{
 		for(String key : args.keyList)
 		{

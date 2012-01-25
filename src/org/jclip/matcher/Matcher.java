@@ -3,7 +3,7 @@ package org.jclip.matcher;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.jclip.args.Arguments;
+import org.jclip.args.CommandLineArguments;
 import org.jclip.exceptions.NoOptionGroupsException;
 import org.jclip.interfaces.Callback;
 import org.jclip.options.OptionGroup;
@@ -11,30 +11,14 @@ import org.jclip.options.OptionGroups;
 
 public class Matcher
 {
-	public OptionGroups matchingOptionGroups = new OptionGroups();
 	public OptionGroup matchingGroup = null;
-	//public OptionGroups optionGroups;
-	public Arguments arguments;		
-	//public Boolean failOnFindingUndefinedArgs = true;
 	public ArrayList<OptionGroup> matchedRequiredArgs = new ArrayList<OptionGroup>();
 	public ArrayList<OptionGroup> matchedOptionalArgs = new ArrayList<OptionGroup>();
 	
 	public Matcher()
 	{
 		
-	}
-	
-	public Matcher(String... args) throws Exception
-	{
-		if(args==null || args.length==0) throw new Exception("Matcher requires non-null and non-empty arguments parameter.");
-		
-		this.arguments = new Arguments(args);
-	}		
-
-	public void setArgs(String... args)
-	{
-		this.arguments = new Arguments(args);
-	}
+	}	
 
 	public OptionGroup match() throws Exception
 	{
@@ -46,12 +30,18 @@ public class Matcher
 		
 		//try and find a perfect match
 		finalizeMatchingOptionGroups();
+		
+		//print errors/notes
+		MatchingData.printErrors();
+		MatchingData.printNotes();
 
 		//found a match so return
 		if (matchingGroup != null) return this.matchingGroup;
 
 		//inform the user of a non-match
-		throw new Exception("No match found");
+		MatchingData.addNote("No match found");
+		
+		return null;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -71,15 +61,23 @@ public class Matcher
 			OptionGroup group = i.next();
 			
 			//if group has unknown args remove it from list of perfect matches
-			if(getUnknownArgCount(group)!=0) 
+			if(getUnknownArgCount(group)!=0)
+			{
+				MatchingData.addNote("Removing OptionGroup "+group+" from the list of matches b/c it had "+getUnknownArgCount(group)+" unknown argument(s).");
 				i.remove();
+				
+			}
 		}
 		
-		if(perfectMatches.size()==0) throw new Exception("No matches found!");
+		if(perfectMatches.size()==0) MatchingData.addNote("No matches found!");
 		
-		if(perfectMatches.size()>1) throw new Exception("More than one match found!");
+		if(perfectMatches.size()>1) MatchingData.addError("More than one match found!");
 		
-		if(perfectMatches.size()==1) this.matchingGroup = perfectMatches.get(0);
+		if(perfectMatches.size()==1)
+		{
+			this.matchingGroup = perfectMatches.get(0);
+			MatchingData.addNote("Matched on "+perfectMatches.get(0));
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -87,7 +85,7 @@ public class Matcher
 	{
 		ArrayList<String> requiredKeys = group.requiredKeys;
 		ArrayList<String> optionalKeys = group.optionalKeys;
-		ArrayList<String> clonedArgs = (ArrayList<String>) this.arguments.keyList.clone();
+		ArrayList<String> clonedArgs = (ArrayList<String>) CommandLineArguments.keyList.clone();
 		
 		//remove all the requiredKeys from the arg list
 		clonedArgs.removeAll(requiredKeys);
@@ -101,19 +99,20 @@ public class Matcher
 
 	private void matchOptionGroupsOnRequiredOptions() throws Exception
 	{		 	
-		if(OptionGroups.groups == null || OptionGroups.groups == null) throw new NoOptionGroupsException();
+		if(OptionGroups.groups == null) throw new NoOptionGroupsException();
 		
 		//for each of the original option groups check if the required keys set contains all of the argument keys
 		for (OptionGroup optionGroup : OptionGroups.groups)
 		{			
 			ArrayList<String> requiredOptionKeys = optionGroup.requiredKeys;
-			ArrayList<String> argKeys = arguments.keyList;			 
+			ArrayList<String> argKeys = CommandLineArguments.keyList;			 
 			
 			if (argKeys.containsAll(requiredOptionKeys)) //if there's a match put the OptionGroup into the set of matches
 			{
-				this.matchedRequiredArgs.add(optionGroup);				
+				this.matchedRequiredArgs.add(optionGroup);	
+				MatchingData.addNote("Matched OptionGroup "+optionGroup+" on all its REQUIRED options [TRUE]");
 			}			
-			//else throw new Exception("Command line args are missing one or more required Option");
+			else MatchingData.addNote("Matched OptionGroup "+optionGroup+" on all its REQUIRED options [FALSE]");
 		}	
 	}
 
@@ -123,13 +122,14 @@ public class Matcher
 		for (OptionGroup optionGroup : OptionGroups.groups)
 		{
 			ArrayList<String> optionalOptionKeys = optionGroup.optionalKeys;
-			ArrayList<String> argKeys = arguments.keyList;
+			ArrayList<String> argKeys = CommandLineArguments.keyList;
 									
 			if (argKeys.containsAll(optionalOptionKeys)) //if there's a match put the OptionGroup into the set of matches
 			{
-				this.matchedOptionalArgs.add(optionGroup);				
+				this.matchedOptionalArgs.add(optionGroup);	
+				MatchingData.addNote("Matched OptionGroup "+optionGroup+" on all its OPTIONAL options [TRUE]");
 			}
-			else throw new Exception("Command line args are missing one or more optional Option");
+			else MatchingData.addNote("Matched OptionGroup "+optionGroup+" on all its OPTIONAL options [FALSE]");
 		}
 
 	}

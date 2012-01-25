@@ -1,5 +1,7 @@
 package org.jclip.testing;
 
+import static org.junit.Assert.*;
+
 import org.jclip.JCLIP;
 import org.jclip.interfaces.Callback;
 import org.jclip.interfaces.OptionValidator;
@@ -19,7 +21,7 @@ import org.junit.Test;
  */
 public class Test9
 {
-	String[] args = new String[]{"--cipher=rsa", "--keylength=1024", "--outputdir=herp", "--opt1", "--opt2"};	
+	String[] args = new String[]{"--cipher=rsa", "--keylength=512", "--outputdir=herp", "--opt1", "--opt2"};	
 	
 	@Test
 	public void doTest() 
@@ -28,7 +30,9 @@ public class Test9
 		{
 			JCLIP runner = new JCLIP(args);
 			
-			OptionGroup og0 = new OptionGroup();
+			OptionGroups.resetState();
+			
+			OptionGroup og0 = new OptionGroup("Test9.og0");
 			og0.addRequiredOption(new RequiredOption("keylength", new KeyLengthValidator()));
 			og0.addRequiredOption(new RequiredOption("cipher"));
 			og0.addRequiredOption(new RequiredOption("outputdir"));
@@ -39,11 +43,15 @@ public class Test9
 			OptionGroups.addOptionGroup(og0);
 			
 			runner.run();
+			
+			assertTrue("Test9 failed", !ValidationData.hasErrors());
 		} 
 		catch (Exception e) 
 		{
 			e.printStackTrace();
 		}
+		
+		TestHarness.lock.notify();
 	}
 	
 	class KeyLengthValidator implements OptionValidator
@@ -59,7 +67,9 @@ public class Test9
 			
 			Double distance = Math.abs(base2log-round);
 			
-			if(Math.abs(distance)>.001) 
+			System.out.println("distance is "+distance);
+			
+			if(Math.abs(distance)!=0d) 
 				ValidationData.addOptionError(value+" doesn't appear to be a valid value for the keylength parameter.");
 			else 
 				ValidationData.addNote(value+" looks to be a good value for the keylength parameter.");

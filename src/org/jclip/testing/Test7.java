@@ -2,6 +2,7 @@ package org.jclip.testing;
 
 import static org.junit.Assert.assertTrue;
 
+import org.jclip.args.CommandLineArguments;
 import org.jclip.interfaces.Callback;
 import org.jclip.matcher.Matcher;
 import org.jclip.options.OptionGroup;
@@ -28,23 +29,11 @@ public class Test7
 	{
 		try
 		{
-			Matcher matcher = new Matcher(args);
-			//matcher.setOptionGroups(new OptionGroups1());
-			matcher.match();
-			matcher.doCallbacks();
-			assertTrue("Expected result was '"+expectedResult+"', actual result was '"+actualResult+"'", expectedResult.equals(actualResult));
-		}
-		catch (Exception e)
-		{						
-			e.printStackTrace();
-		}		
-	}
-	
-	class OptionGroups1 extends OptionGroups
-	{
-		public OptionGroups1() throws Exception
-		{
-			OptionGroup og0 = new OptionGroup();
+			OptionGroups.resetState();
+			
+			CommandLineArguments.processAndStoreRawArgs(args);
+			
+			OptionGroup og0 = new OptionGroup("Test7.og0");
 			og0.addRequiredOption(new RequiredOption("keylength"));
 			og0.addRequiredOption(new RequiredOption("cipher"));
 			og0.addRequiredOption(new RequiredOption("outputdir"));
@@ -56,7 +45,7 @@ public class Test7
 			//super set
 			OptionGroups.addOptionGroup(og0);		
 			
-			OptionGroup og1 = new OptionGroup();
+			OptionGroup og1 = new OptionGroup("Test7.og1");
 			og1.addRequiredOption(new RequiredOption("keylength"));
 			og1.addRequiredOption(new RequiredOption("cipher"));
 			og1.addRequiredOption(new RequiredOption("outputdir"));
@@ -67,7 +56,7 @@ public class Test7
 			//proper set
 			OptionGroups.addOptionGroup(og1);
 			
-			OptionGroup og2 = new OptionGroup();
+			OptionGroup og2 = new OptionGroup("Test7.og2");
 			og2.addRequiredOption(new RequiredOption("keylength"));
 			og2.addRequiredOption(new RequiredOption("cipher"));
 			og2.addOptionalOption(new OptionalOption("opt1"));
@@ -75,8 +64,20 @@ public class Test7
 			og2.addCallback(new Callback2());
 			
 			//subset
-			OptionGroups.addOptionGroup(og2);			
+			OptionGroups.addOptionGroup(og2);	
+			
+			Matcher matcher = new Matcher();
+			matcher.match();
+			matcher.doCallbacks();
+			
+			assertTrue("Expected result was '"+expectedResult+"', actual result was '"+actualResult+"'", expectedResult.equals(actualResult));
 		}
+		catch (Exception e)
+		{						
+			e.printStackTrace();
+		}		
+		
+		TestHarness.lock.notify();
 	}
 
 	class Callback0 implements Callback

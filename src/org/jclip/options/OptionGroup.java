@@ -15,10 +15,16 @@ public class OptionGroup
 	public ArrayList<String> requiredKeys = new ArrayList<String>();
 	public ArrayList<String> optionalKeys = new ArrayList<String>();
 	public OptionGroupValidator validator = null;
-
+	public String name;
+	
 	public OptionGroup()
 	{
-
+		
+	}
+	
+	public OptionGroup(String name)
+	{
+		this.name = name;
 	}
 
 	public void addRequiredOption(RequiredOption option)
@@ -53,5 +59,10 @@ public class OptionGroup
 	public void addCallback(Callback callback)
 	{
 		this.callbacks.add(callback);
+	}
+	
+	public String toString()
+	{
+		return name;
 	}
 }

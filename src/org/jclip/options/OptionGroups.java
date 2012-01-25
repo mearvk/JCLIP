@@ -8,6 +8,12 @@ public class OptionGroups
 {
 	public static ArrayList<OptionGroup> groups = new ArrayList<OptionGroup>();
 	
+	public static void resetState()
+	{
+		groups = null;
+		groups = new ArrayList<OptionGroup>();
+	}
+	
 	public static void addOptionGroup(OptionGroup newGroup) throws Exception
 	{
 		ArrayList<String> newGroupRequiredKeys = newGroup.requiredKeys;

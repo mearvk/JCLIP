@@ -1,5 +1,6 @@
 package org.jclip;
 
+import org.jclip.args.CommandLineArguments;
 import org.jclip.matcher.Matcher;
 import org.jclip.options.OptionGroup;
 import org.jclip.options.OptionGroups;
@@ -28,11 +29,14 @@ public class JCLIP
 	 */
 	public JCLIP(String...args) throws Exception
 	{
+		//process raw CLI args
+		CommandLineArguments.processAndStoreRawArgs(args);
+		
 		//create and initialize a Matcher in order to perform CLI matching
-		matcher = new Matcher(args);
+		matcher = new Matcher();
 		
 		//create and initialize a Validator in order to perform validation on parameter values
-		validator = new Validator(args);	
+		validator = new Validator();	
 	}
 		
 	/**

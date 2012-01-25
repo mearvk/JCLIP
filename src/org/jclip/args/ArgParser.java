@@ -4,19 +4,11 @@ import org.apache.commons.lang3.StringUtils;
 
 public class ArgParser
 {
-	public Arguments processedArgs = null;
-	public String[] rawArgs = null;
+	public static String[] rawArgs = null;
+	public static String[] acceptedPrefixTokens = new String[]{ "--","-" };
+	public static String[] acceptedBridgeTokens = new String[]{ "=" };	
 	
-	public String[] acceptedPrefixTokens = new String[]{ "--","-" };
-	public String[] acceptedBridgeTokens = new String[]{ "=" };	
-	
-	public ArgParser(Arguments arguments, String...rawArgs)
-	{
-		this.processedArgs = arguments;
-		this.rawArgs = rawArgs;
-	}
-	
-	public void processArgs()
+	public static void processArgs(String...rawArgs)
 	{
 		for (String arg : rawArgs)
 		{
@@ -46,7 +38,7 @@ public class ArgParser
 		}
 	}
 	
-	private String stripAndSavePrefix(String arg) throws Exception
+	private static String stripAndSavePrefix(String arg) throws Exception
 	{
 		if(arg==null) throw new NullPointerException();
 		
@@ -60,7 +52,7 @@ public class ArgParser
 			if(arg.startsWith(prefix))
 			{
 				//add prefix to prefix list
-				processedArgs.prefixList.add(prefix);
+				CommandLineArguments.prefixList.add(prefix);
 				
 				//return the string minus the prefix
 				return StringUtils.removeStart(arg, prefix);
@@ -70,7 +62,7 @@ public class ArgParser
 		throw new Exception("No valid prefix found for argument '"+arg+"'");
 	}
 	
-	private String stripAndSaveKey(String arg) throws Exception
+	private static String stripAndSaveKey(String arg) throws Exception
 	{
 		if(arg==null) throw new NullPointerException();
 		
@@ -79,7 +71,7 @@ public class ArgParser
 		
 		if(!hasBridgeToken(arg))
 		{
-			processedArgs.keyList.add(arg);
+			CommandLineArguments.keyList.add(arg);
 			return arg;
 		}
 			
@@ -96,7 +88,7 @@ public class ArgParser
 				String key = arg.substring(0,bridgeLocation);
 				
 				//add key to key list
-				processedArgs.keyList.add(key);
+				CommandLineArguments.keyList.add(key);
 				
 				//return the string minus the key
 				return StringUtils.removeStart(arg, key);
@@ -106,7 +98,7 @@ public class ArgParser
 		throw new Exception("No valid key found for argument '"+arg+"'");
 	}	
 	
-	private String stripAndSaveBridge(String arg) throws Exception
+	private static String stripAndSaveBridge(String arg) throws Exception
 	{
 		if(arg==null) throw new NullPointerException();
 		
@@ -123,7 +115,7 @@ public class ArgParser
 			if(bridgeLocation != -1)
 			{
 				//add bridge to the list of bridges
-				processedArgs.bridgeList.add(bridge);
+				CommandLineArguments.bridgeList.add(bridge);
 				
 				//return the string minus the bridge
 				return StringUtils.removeStart(arg, bridge);
@@ -135,7 +127,7 @@ public class ArgParser
 		//throw new Exception("No valid bridge found for argument '"+arg+"'");
 	}
 	
-	private String stripAndSaveValue(String arg) throws Exception
+	private static String stripAndSaveValue(String arg) throws Exception
 	{
 		if(arg==null) throw new NullPointerException();
 		
@@ -143,13 +135,13 @@ public class ArgParser
 		arg = arg.trim();		
 				
 		//add arg value (even if "") to value list
-		processedArgs.valueList.add(arg);		
+		CommandLineArguments.valueList.add(arg);		
 		
 		//return the string (now it should be empty)
 		return "";	
 	}
 	
-	private Boolean hasBridgeToken(String arg)
+	private static Boolean hasBridgeToken(String arg)
 	{ 		
 		for(String bridge : acceptedBridgeTokens)
 		{
