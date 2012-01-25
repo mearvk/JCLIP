@@ -3,6 +3,7 @@ package org.jclip.testing;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.jclip.JCLIP;
 import org.jclip.args.CommandLineArguments;
 import org.jclip.interfaces.Callback;
 import org.jclip.matcher.Matcher;
@@ -31,11 +32,7 @@ public class Test1 extends Thread
 		
 		try
 		{
-			OptionGroups.resetState();
-			MatchingData.resetState();
-			CommandLineArguments.resetState();
-			
-			CommandLineArguments.processAndStoreRawArgs(args);
+			JCLIP runner = new JCLIP(args);
 			
 			OptionGroup createKeyGroup = new OptionGroup("Test1.createKeyGroup");
 			createKeyGroup.addRequiredOption(new RequiredOption("cipher"));
@@ -45,9 +42,7 @@ public class Test1 extends Thread
 			
 			OptionGroups.addOptionGroup(createKeyGroup);
 			
-			Matcher matcher = new Matcher();
-			matcher.match();
-			matcher.doCallbacks();
+			runner.run();
 			
 			assertTrue("Test1 failed", expectedResult.equals(actualResult));
 		}
@@ -56,7 +51,7 @@ public class Test1 extends Thread
 			fail(e.getMessage());
 		}		
 		
-		System.err.println("Test1 DONE");
+		System.err.println("Test1 STOP\n");
 	}
 
 	class Callback1 implements Callback

@@ -26,6 +26,8 @@ public class Test9 extends Thread
 	@Test
 	public void run() 
 	{
+		System.err.println("Test9 START");
+		
 		try 
 		{
 			JCLIP runner = new JCLIP(args);
@@ -49,7 +51,7 @@ public class Test9 extends Thread
 			e.printStackTrace();
 		}
 		
-		System.err.println("Test9 DONE");
+		System.err.println("Test9 STOP\n");
 	}
 	
 	class KeyLengthValidator implements OptionValidator

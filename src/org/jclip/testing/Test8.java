@@ -58,7 +58,7 @@ public class Test8 extends Thread
 			assertTrue("Test 8 failed", b);
 		}
 		
-		System.err.println("Test8 DONE");
+		System.err.println("Test8 STOP\n");
 	}
 	
 	class Validator0 implements OptionGroupValidator

@@ -3,6 +3,7 @@ package org.jclip.testing;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.jclip.JCLIP;
 import org.jclip.args.CommandLineArguments;
 import org.jclip.exceptions.SetEqualityException;
 import org.jclip.interfaces.Callback;
@@ -33,11 +34,7 @@ public class Test4 extends Thread
 		
 		try
 		{
-			OptionGroups.resetState();
-			MatchingData.resetState();
-			CommandLineArguments.resetState();
-			
-			CommandLineArguments.processAndStoreRawArgs(args);
+			JCLIP runner = new JCLIP(args);
 			
 			OptionGroup og1 = new OptionGroup("Test4.og1");
 			og1.addRequiredOption(new RequiredOption("keylength"));
@@ -57,6 +54,8 @@ public class Test4 extends Thread
 			matcher.match();
 			matcher.doCallbacks();
 			
+			runner.run();
+			
 			fail("Test4 failed");
 		}
 		catch (Exception e)
@@ -66,7 +65,7 @@ public class Test4 extends Thread
 			//e.printStackTrace();
 		}
 		
-		System.err.println("Test4 DONE");
+		System.err.println("Test4 STOP\n");
 	}
 
 	class Callback1 implements Callback

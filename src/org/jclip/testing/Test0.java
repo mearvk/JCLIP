@@ -30,6 +30,6 @@ public class Test0 extends Thread
 		boolean b3 = keyset1.containsAll(keyset2);
 		boolean b4 = keyset2.containsAll(keyset1);
 		
-		System.err.println("Test0 DONE");
+		System.err.println("Test0 DONE\n");
 	}
 }
