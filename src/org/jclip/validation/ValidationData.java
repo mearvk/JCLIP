@@ -9,6 +9,13 @@ public class ValidationData
 	private static ArrayList<String> optionErrors = new ArrayList<String>();
 	private static ArrayList<String> notes = new ArrayList<String>();
 	
+	public static void resetState()
+	{
+		notes = new ArrayList<String>();
+		optionErrors = new ArrayList<String>();
+		optionGroupErrors = new ArrayList<String>();
+	}
+	
 	public static boolean hasNotes()
 	{
 		return notes.size()>0;
@@ -51,7 +58,7 @@ public class ValidationData
 	{
 		for(String msg : notes)
 		{
-			System.out.println(msg);
+			System.err.println(msg);
 		}
 	}
 }

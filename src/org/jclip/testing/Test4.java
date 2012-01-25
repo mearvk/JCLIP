@@ -7,6 +7,7 @@ import org.jclip.args.CommandLineArguments;
 import org.jclip.exceptions.SetEqualityException;
 import org.jclip.interfaces.Callback;
 import org.jclip.matcher.Matcher;
+import org.jclip.matcher.MatchingData;
 import org.jclip.options.OptionGroup;
 import org.jclip.options.OptionGroups;
 import org.jclip.options.RequiredOption;
@@ -19,18 +20,22 @@ import org.junit.Test;
  * @author Max Rupplin
  *
  */
-public class Test4
+public class Test4 extends Thread
 {
 	String[] args = new String[]{"--cipher=rsa", "--keylength=1024"};
 	static String expectedResult = "Test4.Callback2";
 	static String actualResult = null;		
 	
 	@Test
-	public void doTest() 
+	public void run() 
 	{
+		System.err.println("Test4 START");
+		
 		try
 		{
 			OptionGroups.resetState();
+			MatchingData.resetState();
+			CommandLineArguments.resetState();
 			
 			CommandLineArguments.processAndStoreRawArgs(args);
 			
@@ -56,11 +61,12 @@ public class Test4
 		}
 		catch (Exception e)
 		{			
-			assertTrue(e instanceof SetEqualityException);
+			assertTrue("Something unexpected in Test4 occurred.",e instanceof SetEqualityException);
+			System.out.println("Test 4 succeeded in detecting set equality in OptionGroup instances");
 			//e.printStackTrace();
 		}
 		
-		TestHarness.lock.notify();
+		System.err.println("Test4 DONE");
 	}
 
 	class Callback1 implements Callback

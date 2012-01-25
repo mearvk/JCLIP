@@ -9,6 +9,7 @@ import org.jclip.args.CommandLineArguments;
 import org.jclip.exceptions.DerpException;
 import org.jclip.interfaces.Callback;
 import org.jclip.interfaces.OptionGroupValidator;
+import org.jclip.matcher.MatchingData;
 import org.jclip.options.OptionGroup;
 import org.jclip.options.OptionGroups;
 import org.jclip.options.OptionalOption;
@@ -24,18 +25,18 @@ import org.junit.Test;
  * @author Max Rupplin
  *
  */
-public class Test8
+public class Test8 extends Thread
 {
 	String[] args = new String[]{"--cipher=rsa", "--keylength=1024", "--outputdir=herp", "--opt1", "--opt2"};	
 	
 	@Test
-	public void doTest() 
+	public void run() 
 	{
+		System.err.println("Test8 START");
+	
 		try 
 		{
 			JCLIP runner = new JCLIP(args);
-			
-			OptionGroups.resetState();
 			
 			OptionGroup og0 = new OptionGroup("Test8.og0");
 			og0.addRequiredOption(new RequiredOption("keylength"));
@@ -57,7 +58,7 @@ public class Test8
 			assertTrue("Test 8 failed", b);
 		}
 		
-		TestHarness.lock.notify();
+		System.err.println("Test8 DONE");
 	}
 	
 	class Validator0 implements OptionGroupValidator

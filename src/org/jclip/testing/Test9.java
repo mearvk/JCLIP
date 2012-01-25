@@ -19,18 +19,16 @@ import org.junit.Test;
  * @author Max Rupplin
  *
  */
-public class Test9
+public class Test9 extends Thread
 {
 	String[] args = new String[]{"--cipher=rsa", "--keylength=512", "--outputdir=herp", "--opt1", "--opt2"};	
 	
 	@Test
-	public void doTest() 
+	public void run() 
 	{
 		try 
 		{
 			JCLIP runner = new JCLIP(args);
-			
-			OptionGroups.resetState();
 			
 			OptionGroup og0 = new OptionGroup("Test9.og0");
 			og0.addRequiredOption(new RequiredOption("keylength", new KeyLengthValidator()));
@@ -51,7 +49,7 @@ public class Test9
 			e.printStackTrace();
 		}
 		
-		TestHarness.lock.notify();
+		System.err.println("Test9 DONE");
 	}
 	
 	class KeyLengthValidator implements OptionValidator

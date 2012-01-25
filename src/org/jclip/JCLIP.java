@@ -2,6 +2,7 @@ package org.jclip;
 
 import org.jclip.args.CommandLineArguments;
 import org.jclip.matcher.Matcher;
+import org.jclip.matcher.MatchingData;
 import org.jclip.options.OptionGroup;
 import org.jclip.options.OptionGroups;
 import org.jclip.validation.ValidationData;
@@ -29,7 +30,11 @@ public class JCLIP
 	 */
 	public JCLIP(String...args) throws Exception
 	{
-		//process raw CLI args
+		OptionGroups.resetState();
+		MatchingData.resetState();
+		ValidationData.resetState();
+		CommandLineArguments.resetState();
+		
 		CommandLineArguments.processAndStoreRawArgs(args);
 		
 		//create and initialize a Matcher in order to perform CLI matching
@@ -88,7 +93,7 @@ public class JCLIP
 			ValidationData.printNotes();
 		
 		if(ValidationData.hasErrors())
-			throw new ValidationErrorException();
+			ValidationData.printErrors();
 	}
 	
 	/**

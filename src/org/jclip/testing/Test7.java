@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.jclip.args.CommandLineArguments;
 import org.jclip.interfaces.Callback;
 import org.jclip.matcher.Matcher;
+import org.jclip.matcher.MatchingData;
 import org.jclip.options.OptionGroup;
 import org.jclip.options.OptionGroups;
 import org.jclip.options.OptionalOption;
@@ -18,18 +19,22 @@ import org.junit.Test;
  * @author Max Rupplin
  *
  */
-public class Test7
+public class Test7 extends Thread
 {
 	String[] args = new String[]{"--cipher=rsa", "--keylength=1024", "--outputdir=herp", "--opt1", "--opt2"};
 	static String expectedResult = "Test7.Callback1";
 	static String actualResult = null;		
 	
 	@Test
-	public void doTest() 
+	public void run() 
 	{
+		System.err.println("Test7 START");
+		
 		try
 		{
 			OptionGroups.resetState();
+			MatchingData.resetState();
+			CommandLineArguments.resetState();
 			
 			CommandLineArguments.processAndStoreRawArgs(args);
 			
@@ -75,9 +80,9 @@ public class Test7
 		catch (Exception e)
 		{						
 			e.printStackTrace();
-		}		
+		}
 		
-		TestHarness.lock.notify();
+		System.err.println("Test7 DONE");
 	}
 
 	class Callback0 implements Callback
