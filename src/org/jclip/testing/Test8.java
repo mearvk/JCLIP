@@ -24,15 +24,13 @@ import org.junit.Test;
  * @author Max Rupplin
  *
  */
-public class Test8 extends Thread
+public class Test8 extends BaseTest
 {
 	String[] args = new String[]{"--cipher=rsa", "--keylength=1024", "--outputdir=herp", "--opt1", "--opt2"};	
 	
 	@Test
 	public void run() 
 	{
-		System.err.println("Test8 START");
-	
 		try 
 		{
 			JCLIP runner = new JCLIP(args);
@@ -56,8 +54,6 @@ public class Test8 extends Thread
 			
 			assertTrue("Test 8 failed", b);
 		}
-		
-		System.err.println("Test8 STOP\n");
 	}
 	
 	class Validator0 implements OptionGroupValidator

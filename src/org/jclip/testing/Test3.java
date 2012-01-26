@@ -17,7 +17,7 @@ import org.junit.Test;
  * @author Max Rupplin
  *
  */
-public class Test3 extends Thread
+public class Test3 extends BaseTest
 {
 	String[] args = new String[]{"--cipher=rsa", "--keylength=1024"};
 	static String expectedResult = "Test3.Callback2";
@@ -26,8 +26,6 @@ public class Test3 extends Thread
 	@Test
 	public void run() 
 	{
-		System.err.println("Test3 START");
-		
 		try
 		{
 			JCLIP runner = new JCLIP(args);
@@ -47,10 +45,6 @@ public class Test3 extends Thread
 			
 			OptionGroups.addOptionGroup(og2);			
 			
-			Matcher matcher = new Matcher();
-			matcher.match();
-			matcher.doCallbacks();
-			
 			runner.run();
 			
 			assertTrue("Test3 failed", expectedResult.equals(actualResult));				
@@ -59,8 +53,6 @@ public class Test3 extends Thread
 		{
 			Assert.fail(e.getMessage());
 		}	
-		
-		System.err.println("Test3 STOP\n");
 	}
 
 	class Callback1 implements Callback

@@ -8,6 +8,7 @@ import org.jclip.interfaces.Callback;
 import org.jclip.options.OptionGroup;
 import org.jclip.options.OptionGroups;
 import org.jclip.options.RequiredOption;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -16,7 +17,7 @@ import org.junit.Test;
  * @author Max Rupplin
  *
  */
-public class Test1 extends Thread
+public class Test1 extends BaseTest
 {	
 	String[] args = new String[]{"--cipher=rsa", "--keylength=1024", "--outputdir=\"C:\\Users\\Max Rupplin\\Desktop\""};
 	static String expectedResult = "Test1.Callback1";
@@ -25,8 +26,6 @@ public class Test1 extends Thread
 	@Test
 	public void run() 
 	{
-		System.err.println("Test1 START");
-		
 		try
 		{
 			JCLIP runner = new JCLIP(args);
@@ -47,8 +46,6 @@ public class Test1 extends Thread
 		{
 			fail(e.getMessage());
 		}		
-		
-		System.err.println("Test1 STOP\n");
 	}
 
 	class Callback1 implements Callback

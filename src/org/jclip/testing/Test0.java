@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -12,13 +13,11 @@ import org.junit.Test;
  * @author Max Rupplin
  *
  */
-public class Test0 extends Thread
-{
+public class Test0 extends BaseTest
+{	
 	@Test
 	public void run()
-	{
-		System.err.println(this.getClass().getSimpleName()+" STARTS");
-		
+	{	
 		ArrayList<String> keyset1 = new ArrayList<String>();
 		ArrayList<String> keyset2 = new ArrayList<String>();
 				
@@ -44,7 +43,5 @@ public class Test0 extends Thread
 		assertTrue("Keysets should NOT be equal; note ordering of ArrayList additions.", !b2);
 		assertTrue("Keyset should containAll of its twin list.", b3);
 		assertTrue("Keyset should containAll of its twin list.", b4);
-		
-		System.err.println(this.getClass().getSimpleName()+" STOPS");
 	}
 }

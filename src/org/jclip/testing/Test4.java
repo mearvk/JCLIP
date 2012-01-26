@@ -19,7 +19,7 @@ import org.junit.Test;
  * @author Max Rupplin
  *
  */
-public class Test4 extends Thread
+public class Test4 extends BaseTest
 {
 	String[] args = new String[]{"--cipher=rsa", "--keylength=1024"};
 	static String expectedResult = "Test4.Callback2";
@@ -27,9 +27,7 @@ public class Test4 extends Thread
 	
 	@Test
 	public void run() 
-	{
-		System.err.println("Test4 START");
-		
+	{	
 		try
 		{
 			JCLIP runner = new JCLIP(args);
@@ -62,8 +60,6 @@ public class Test4 extends Thread
 			System.out.println("Test 4 succeeded in detecting set equality in OptionGroup instances");
 			//e.printStackTrace();
 		}
-		
-		System.err.println("Test4 STOP\n");
 	}
 
 	class Callback1 implements Callback

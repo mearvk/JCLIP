@@ -17,7 +17,7 @@ import org.junit.Test;
  * @author Max Rupplin
  *
  */
-public class Test5 extends Thread
+public class Test5 extends BaseTest
 {
 	String[] args = new String[]{"--cipher=rsa", "--keylength=1024", "--outputdir=herp", "--opt1=y", "--opt2=n"};
 	static String expectedResult = "Test5.Callback1";
@@ -25,9 +25,7 @@ public class Test5 extends Thread
 	
 	@Test
 	public void run() 
-	{
-		System.err.println("Test5 START");
-		
+	{	
 		try
 		{
 			JCLIP runner = new JCLIP(args);
@@ -50,8 +48,6 @@ public class Test5 extends Thread
 		{						
 			e.printStackTrace();
 		}	
-		
-		System.err.println("Test5 STOP\n");
 	}
 
 	class Callback1 implements Callback
