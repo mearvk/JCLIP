@@ -6,7 +6,6 @@ import org.jclip.matcher.MatchingData;
 import org.jclip.options.OptionGroup;
 import org.jclip.options.OptionGroups;
 import org.jclip.validation.ValidationData;
-import org.jclip.validation.ValidationErrorException;
 import org.jclip.validation.Validator;
 
 /**

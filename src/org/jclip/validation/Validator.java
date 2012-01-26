@@ -2,7 +2,6 @@ package org.jclip.validation;
 
 import org.jclip.args.CommandLineArguments;
 import org.jclip.exceptions.NoOptionGroupException;
-import org.jclip.exceptions.NoOptionGroupValidatorException;
 import org.jclip.options.Option;
 import org.jclip.options.OptionGroup;
 import org.jclip.utils.OptionProcessingUtils;

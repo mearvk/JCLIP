@@ -1,6 +1,6 @@
 package org.jclip.testing;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
@@ -9,7 +9,6 @@ import org.jclip.args.CommandLineArguments;
 import org.jclip.exceptions.DerpException;
 import org.jclip.interfaces.Callback;
 import org.jclip.interfaces.OptionGroupValidator;
-import org.jclip.matcher.MatchingData;
 import org.jclip.options.OptionGroup;
 import org.jclip.options.OptionGroups;
 import org.jclip.options.OptionalOption;

@@ -3,10 +3,7 @@ package org.jclip.testing;
 import static org.junit.Assert.assertTrue;
 
 import org.jclip.JCLIP;
-import org.jclip.args.CommandLineArguments;
 import org.jclip.interfaces.Callback;
-import org.jclip.matcher.Matcher;
-import org.jclip.matcher.MatchingData;
 import org.jclip.options.OptionGroup;
 import org.jclip.options.OptionGroups;
 import org.jclip.options.OptionalOption;

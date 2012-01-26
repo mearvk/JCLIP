@@ -4,11 +4,9 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.jclip.JCLIP;
-import org.jclip.args.CommandLineArguments;
 import org.jclip.exceptions.SetEqualityException;
 import org.jclip.interfaces.Callback;
 import org.jclip.matcher.Matcher;
-import org.jclip.matcher.MatchingData;
 import org.jclip.options.OptionGroup;
 import org.jclip.options.OptionGroups;
 import org.jclip.options.RequiredOption;

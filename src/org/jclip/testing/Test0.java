@@ -1,15 +1,23 @@
 package org.jclip.testing;
 
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 
 import org.junit.Test;
 
+/**
+ * Checks if ordering of items in ArrayList instances matter when checking for set equality. 
+ * 
+ * @author Max Rupplin
+ *
+ */
 public class Test0 extends Thread
 {
 	@Test
 	public void run()
 	{
-		System.err.println("Test0 START");
+		System.err.println(this.getClass().getSimpleName()+" STARTS");
 		
 		ArrayList<String> keyset1 = new ArrayList<String>();
 		ArrayList<String> keyset2 = new ArrayList<String>();
@@ -18,10 +26,12 @@ public class Test0 extends Thread
 		String two = "derp";
 		String thr = "herp";
 		String fur = "derp";
-				
+			
+		//NOTE ORDERING
 		keyset1.add(one);
 		keyset1.add(two);
 				
+		//NOTE ORDERING
 		keyset2.add(fur);
 		keyset2.add(thr);
 				
@@ -30,6 +40,11 @@ public class Test0 extends Thread
 		boolean b3 = keyset1.containsAll(keyset2);
 		boolean b4 = keyset2.containsAll(keyset1);
 		
-		System.err.println("Test0 DONE\n");
+		assertTrue("Keysets should NOT be equal; note ordering of ArrayList additions.", !b1);
+		assertTrue("Keysets should NOT be equal; note ordering of ArrayList additions.", !b2);
+		assertTrue("Keyset should containAll of its twin list.", b3);
+		assertTrue("Keyset should containAll of its twin list.", b4);
+		
+		System.err.println(this.getClass().getSimpleName()+" STOPS");
 	}
 }
