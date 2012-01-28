@@ -19,9 +19,10 @@ import org.junit.Test;
 public class Test2 extends BaseTest
 {
 	String[] args = new String[]{"--cipher=rsa", "--keylength=1024", "--outputdir=derp"};	
-	static String expectedResult = "Test2.Callback1";
-	static String actualResult = null;	
+	private static String expectedResult = "Test2.Callback1";
+	private static String actualResult = null;	
 	
+	@Override
 	@Test
 	public void run() 
 	{

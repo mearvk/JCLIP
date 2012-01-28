@@ -28,6 +28,7 @@ public class Test8 extends BaseTest
 {
 	String[] args = new String[]{"--cipher=rsa", "--keylength=1024", "--outputdir=herp", "--opt1", "--opt2"};	
 	
+	@Override
 	@Test
 	public void run() 
 	{

@@ -22,9 +22,10 @@ import org.junit.Test;
 public class Test4 extends BaseTest
 {
 	String[] args = new String[]{"--cipher=rsa", "--keylength=1024"};
-	static String expectedResult = "Test4.Callback2";
-	static String actualResult = null;		
+	private static String expectedResult = "Test4.Callback2";
+	private static String actualResult = null;		
 	
+	@Override
 	@Test
 	public void run() 
 	{	

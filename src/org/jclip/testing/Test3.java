@@ -4,7 +4,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.jclip.JCLIP;
 import org.jclip.interfaces.Callback;
-import org.jclip.matcher.Matcher;
 import org.jclip.options.OptionGroup;
 import org.jclip.options.OptionGroups;
 import org.jclip.options.RequiredOption;
@@ -20,9 +19,10 @@ import org.junit.Test;
 public class Test3 extends BaseTest
 {
 	String[] args = new String[]{"--cipher=rsa", "--keylength=1024"};
-	static String expectedResult = "Test3.Callback2";
-	static String actualResult = null;		
+	private static String expectedResult = "Test3.Callback2";
+	private static String actualResult = null;		
 	
+	@Override
 	@Test
 	public void run() 
 	{
