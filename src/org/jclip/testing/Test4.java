@@ -5,13 +5,10 @@ import static org.junit.Assert.fail;
 
 import org.jclip.JCLIP;
 import org.jclip.exceptions.SetEqualityException;
-import org.jclip.interfaces.Callback;
-import org.jclip.matcher.Matcher;
 import org.jclip.options.OptionGroup;
 import org.jclip.options.OptionGroups;
 import org.jclip.options.RequiredOption;
 import org.junit.Test;
-
 
 /**
  * Tests whether two identical sets are rejected while trying to create OptionGroup instances
@@ -45,12 +42,12 @@ public class Test4 extends BaseTest
 			
 			runner.run();
 			
-			fail("Test4 failed");
+			fail("Test4 should not reach this point; a SetEqualityException should be thrown instead.");
 		}
 		catch (Exception e)
 		{			
 			assertTrue("Something unexpected in Test4 occurred.",e instanceof SetEqualityException);
-			System.out.println("Test 4 succeeded in detecting set equality in OptionGroup instances");
+			System.err.println("Test 4 succeeded in detecting set equality in OptionGroup instances");
 		}
 	}
 }
