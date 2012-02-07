@@ -10,28 +10,27 @@ import org.jclip.options.OptionalOption;
 import org.jclip.options.RequiredOption;
 import org.junit.Test;
 
-
 /**
- * Tests whether correct set is chosen when given a sub and proper set
+ * Tests whether when given undefined optional options the Matcher chooses the best match
  * 
  * @author Max Rupplin
  *
  */
-public class Test6 extends BaseTest
+public class Test10 extends BaseTest 
 {
-	String[] args = new String[]{"--cipher=rsa", "--keylength=1024", "--outputdir=herp", "--opt1", "--opt2"};
-	private static String expectedResult = "Test6.Callback1";
-	private static String actualResult = null;		
+	String[] args = new String[]{"--cipher=rsa", "--keylength=1024", "--outputdir=herp", "--opt1=y", "--opt2=n"};
+	private static String expectedResult = "Test10.Callback1";
+	private static String actualResult = null;
 	
 	@Override
 	@Test
-	public void run() 
+	public void run()
 	{
 		try
 		{
 			JCLIP runner = new JCLIP(args);
 			
-			OptionGroup og1 = new OptionGroup("Test6.og1");
+			OptionGroup og1 = new OptionGroup("Test10.og1");
 			og1.addRequiredOption(new RequiredOption("keylength"));
 			og1.addRequiredOption(new RequiredOption("cipher"));
 			og1.addRequiredOption(new RequiredOption("outputdir"));
@@ -41,31 +40,33 @@ public class Test6 extends BaseTest
 			
 			OptionGroups.addOptionGroup(og1);
 			
-			OptionGroup og2 = new OptionGroup("Test6.og2");
+			OptionGroup og2 = new OptionGroup("Test10.og2");
 			og2.addRequiredOption(new RequiredOption("keylength"));
 			og2.addRequiredOption(new RequiredOption("cipher"));
+			og2.addRequiredOption(new RequiredOption("outputdir"));
 			og2.addOptionalOption(new OptionalOption("opt1"));
 			og2.addOptionalOption(new OptionalOption("opt2"));
+			og2.addOptionalOption(new OptionalOption("opt3"));
 			og2.addCallback(new Callback2());
 			
-			OptionGroups.addOptionGroup(og2);	
-			
+			OptionGroups.addOptionGroup(og2);
+				
 			runner.run();
 			
-			assertTrue("Expected result was '"+expectedResult+"', actual result was '"+actualResult+"'", expectedResult.equals(actualResult));
+			assertTrue(expectedResult.equals(actualResult));
 		}
 		catch (Exception e)
 		{						
 			e.printStackTrace();
 		}
 	}
-
+	
 	class Callback1 implements Callback
 	{
 		@Override
 		public void execute()
 		{
-			Test6.actualResult = "Test6.Callback1";
+			Test10.actualResult = "Test10.Callback1";
 		}
 	}
 
@@ -74,8 +75,7 @@ public class Test6 extends BaseTest
 		@Override
 		public void execute()
 		{
-			Test6.actualResult = "Test6.Callback2";
+			Test10.actualResult = "Test10.Callback2";
 		}
-	}
+	}	
 }
-
