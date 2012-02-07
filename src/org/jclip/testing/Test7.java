@@ -12,7 +12,7 @@ import org.junit.Test;
 
 
 /**
- * Tests whether correct OG is picked when optional options are defined
+ * Tests whether JCLIP picks up correct set when given sub,super and proper sets as inputs
  * 
  * @author Max Rupplin
  *
