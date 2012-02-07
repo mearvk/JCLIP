@@ -83,7 +83,7 @@ public class Test7 extends BaseTest
 		}
 	}	
 	
-	class Callback1 implements Callback
+	private class Callback1 implements Callback
 	{
 		@Override
 		public void execute()
@@ -92,7 +92,7 @@ public class Test7 extends BaseTest
 		}
 	}
 
-	class Callback2 implements Callback
+	private class Callback2 implements Callback
 	{
 		@Override
 		public void execute()

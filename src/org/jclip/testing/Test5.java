@@ -12,7 +12,7 @@ import org.junit.Test;
 
 
 /**
- * Tests whether optional options are matched correctly
+ * Tests whether proper set of optional options are matched correctly when coupled with proper set of RequiredOptions
  * 
  * @author Max Rupplin
  *
@@ -51,21 +51,12 @@ public class Test5 extends BaseTest
 		}	
 	}
 
-	class Callback1 implements Callback
+	private class Callback1 implements Callback
 	{
 		@Override
 		public void execute()
 		{
 			Test5.actualResult = "Test5.Callback1";
-		}
-	}
-
-	class Callback2 implements Callback
-	{
-		@Override
-		public void execute()
-		{
-			Test5.actualResult = "Test5.Callback2";
 		}
 	}
 }

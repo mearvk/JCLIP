@@ -121,10 +121,11 @@ public class Matcher
 		//for each of the matched, required option groups check if the optional keys set contains all of the argument keys
 		for (OptionGroup optionGroup : OptionGroups.groups)
 		{
-			ArrayList<String> optionalOptionKeys = optionGroup.optionalKeys;
-			ArrayList<String> argKeys = CommandLineArguments.keyList;
-									
-			if (argKeys.containsAll(optionalOptionKeys)) //if there's a match put the OptionGroup into the set of matches
+			ArrayList<String> optionalOptions = optionGroup.optionalKeys;
+			ArrayList<String> cmdLineArgs = CommandLineArguments.keyList;
+								
+			//supersets are OK at this point
+			if (optionalOptions.containsAll(cmdLineArgs)) 
 			{
 				this.matchedOptionalArgs.add(optionGroup);	
 				MatchingData.addNote("Matched OptionGroup "+optionGroup+" on all its OPTIONAL options [TRUE]");

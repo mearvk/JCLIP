@@ -57,7 +57,7 @@ public class Test8 extends BaseTest
 		}
 	}
 	
-	class Validator0 implements OptionGroupValidator
+	private class Validator0 implements OptionGroupValidator
 	{
 		@Override
 		public void validateOptionGroup(OptionGroup group) throws Exception 
@@ -79,7 +79,7 @@ public class Test8 extends BaseTest
 		}
 	}
 
-	class Callback0 implements Callback
+	private class Callback0 implements Callback
 	{
 		@Override
 		public void execute()

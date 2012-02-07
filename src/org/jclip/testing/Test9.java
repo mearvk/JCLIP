@@ -51,7 +51,7 @@ public class Test9 extends BaseTest
 		}
 	}
 	
-	class KeyLengthValidator implements OptionValidator
+	private class KeyLengthValidator implements OptionValidator
 	{
 		@Override
 		public void validateOption(String value) throws Exception
@@ -74,7 +74,7 @@ public class Test9 extends BaseTest
 		
 	}
 
-	class Callback0 implements Callback
+	private class Callback0 implements Callback
 	{
 		@Override
 		public void execute()
