@@ -19,7 +19,7 @@ import org.junit.Test;
 
 
 /**
- * Tests whether correct OG is picked when optional options are defined
+ * Tests whether validation works at OptionGroup level
  * 
  * @author Max Rupplin
  *

@@ -14,7 +14,7 @@ import org.junit.Test;
 
 
 /**
- * Tests whether correct OG is picked when optional options are defined
+ * Tests whether validation works at individual Option level
  * 
  * @author Max Rupplin
  *
