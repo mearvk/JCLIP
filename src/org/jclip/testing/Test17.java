@@ -4,7 +4,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.jclip.JCLIP;
-import org.jclip.exceptions.AmbiguousMatchException;
+import org.jclip.exceptions.DuplicateOptionException;
 import org.jclip.options.OptionGroup;
 import org.jclip.options.OptionGroups;
 import org.jclip.options.OptionalOption;
@@ -18,7 +18,7 @@ import org.junit.Test;
  */
 public class Test17 extends BaseTest 
 {
-String[] args = new String[]{"--opt1=y", "--opt2=n"};
+	String[] args = new String[]{"--duplicate1", "--duplicate2"};
 	
 	@Override
 	@Test
@@ -29,8 +29,8 @@ String[] args = new String[]{"--opt1=y", "--opt2=n"};
 			JCLIP jclp = new JCLIP(args);
 			
 			OptionGroup og1 = new OptionGroup("Test17.og1");
-			og1.addOptionalOption(new OptionalOption("duplicate"));
-			og1.addOptionalOption(new OptionalOption("duplicate"));
+			og1.addOptionalOption(new OptionalOption("duplicate1"));
+			og1.addOptionalOption(new OptionalOption("duplicate1"));
 			
 			OptionGroups.addOptionGroup(og1);
 				
@@ -41,7 +41,7 @@ String[] args = new String[]{"--opt1=y", "--opt2=n"};
 		}
 		catch (Exception e)
 		{						
-			assertTrue("Test17 caught an unexpected exception.", e instanceof AmbiguousMatchException);
+			assertTrue("Test17 caught an unexpected exception.", e instanceof DuplicateOptionException);
 		}
 	}
 }
