@@ -1,6 +1,7 @@
 package org.jclip;
 
 import org.jclip.args.CommandLineArguments;
+import org.jclip.exceptions.NoMatchesToValidateException;
 import org.jclip.matcher.Matcher;
 import org.jclip.matcher.MatchingData;
 import org.jclip.options.OptionGroup;
@@ -84,7 +85,14 @@ public class JCLIP
 	{
 		if(this.validator==null) throw new NullPointerException("Validator cannot be null!");
 		
-		if(this.matchingGroup==null) throw new NullPointerException("Must parse command line arguments before validating the associated values!");
+		if(this.matchingGroup==null)
+		{
+			//note that there were no matches to validate
+			ValidationData.addNote(new NoMatchesToValidateException().getMessage());
+			
+			//return quietly
+			return;
+		}
 		
 		this.validator.validate(this.matchingGroup);
 		

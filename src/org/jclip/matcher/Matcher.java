@@ -83,18 +83,18 @@ public class Matcher
 	@SuppressWarnings("unchecked")
 	private int getUnknownArgCount(OptionGroup group)
 	{
-		ArrayList<String> requiredKeys = group.requiredKeys;
-		ArrayList<String> optionalKeys = group.optionalKeys;
-		ArrayList<String> clonedArgs = (ArrayList<String>) CommandLineArguments.keyList.clone();
+		ArrayList<String> requiredKeys = (ArrayList<String>) group.requiredKeys.clone();
+		ArrayList<String> optionalKeys = (ArrayList<String>) group.optionalKeys.clone();
+		ArrayList<String> cmdLineArgs = (ArrayList<String>) CommandLineArguments.keyList.clone();
 		
 		//remove all the requiredKeys from the arg list
-		clonedArgs.removeAll(requiredKeys);
+		requiredKeys.removeAll(cmdLineArgs);
 		
 		//remove all the optionalKeys from the arg list
-		clonedArgs.removeAll(optionalKeys);
+		optionalKeys.removeAll(cmdLineArgs);
 		
 		//return the number of remaining options
-		return clonedArgs.size();
+		return requiredKeys.size() + optionalKeys.size();
 	}
 
 	private void matchOptionGroupsOnRequiredOptions() throws Exception
@@ -137,6 +137,12 @@ public class Matcher
 
 	public void doCallbacks()
 	{
+		if(this.matchingGroup==null)
+		{
+			System.err.println("No matching OptionGroups were found; no callbacks will be called.");
+			return;
+		}
+		
 		for(Callback callback : this.matchingGroup.callbacks)
 			callback.execute();
 	}
