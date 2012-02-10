@@ -1,6 +1,5 @@
 package org.jclip.testing;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.jclip.JCLIP;
@@ -41,7 +40,10 @@ public class Test17 extends BaseTest
 		}
 		catch (Exception e)
 		{						
-			assertTrue("Test17 caught an unexpected exception.", e instanceof DuplicateOptionException);
+			if(e instanceof DuplicateOptionException)
+				System.err.println(e.getMessage());
+			else 
+				fail("Test17 failed.");
 		}
 	}
 }

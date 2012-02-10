@@ -1,5 +1,6 @@
 package org.jclip.testing;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertTrue;
 
 import org.jclip.JCLIP;
@@ -50,6 +51,8 @@ public class Test15 extends BaseTest
 			jclp.run();
 			
 			assertTrue(expectedResult.equals(actualResult));
+			
+			//fail();
 		}
 		catch (Exception e)
 		{						

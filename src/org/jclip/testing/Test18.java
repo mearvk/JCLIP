@@ -1,6 +1,5 @@
 package org.jclip.testing;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.jclip.JCLIP;
@@ -41,7 +40,10 @@ String[] args = new String[]{"--duplicate1"};
 		}
 		catch (Exception e)
 		{						
-			assertTrue("Test18 caught an unexpected exception.", e instanceof DuplicateOptionException);
+			if(e instanceof DuplicateOptionException)
+				System.err.println(e.getMessage());
+			else 
+				fail("Test18 failed.");
 		}
 	}
 }

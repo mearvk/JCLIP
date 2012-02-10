@@ -6,6 +6,6 @@ public class DuplicateOptionException extends Exception
 
 	public DuplicateOptionException(String message)
 	{
-		super("One or more of your Options is defined multiple times");
+		super(message);
 	}
 }
