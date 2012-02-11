@@ -1,7 +1,6 @@
 package org.jclip.testing;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertTrue;
 
 import org.jclip.JCLIP;
 import org.jclip.interfaces.Callback;

@@ -54,20 +54,50 @@ public class Matcher
 		//keep only the OptionGroup instances that match both required and optional Options
 		perfectMatches.retainAll(optMatches);
 		
+		int bestMatchUnknownArgCount = Integer.MAX_VALUE;
+		
 		//remove imperfect matches			
 		for	(Iterator<OptionGroup> i=perfectMatches.iterator(); i.hasNext();)
 		{
 			//next group in the list
 			OptionGroup group = i.next();
 			
-			//if group has unknown args remove it from list of perfect matches
-			if(getUnknownArgCount(group)!=0)
+			//number of unknown arguments (optional, required)
+			int currentMatchUnknownArgCount = getUnknownArgCount(group);
+			
+			//if it's worse than our best match in terms of # of unknown args
+			if( currentMatchUnknownArgCount > bestMatchUnknownArgCount )
 			{
 				MatchingData.addNote("Removing OptionGroup "+group+" from the list of matches b/c it had "+getUnknownArgCount(group)+" unknown argument(s).");
-				i.remove();
 				
+				i.remove();	
+			}
+			//this match is at least as good as our current best so let's keep it
+			else 
+			{
+				bestMatchUnknownArgCount = currentMatchUnknownArgCount;
+				
+				//make a copy to get around the weird iterator rule
+				ArrayList<OptionGroup> clone = (ArrayList<OptionGroup>) perfectMatches.clone();
+				
+				//remove all matches with a higher # of unknown args
+				for( Iterator<OptionGroup> j=clone.iterator(); j.hasNext(); )
+				//for(OptionGroup match : perfectMatches)
+				{
+					OptionGroup match = j.next();
+					
+					int unknownArgCount = getUnknownArgCount(match);
+					
+					if(unknownArgCount > bestMatchUnknownArgCount)
+					{
+						j.remove();
+						perfectMatches = clone;
+					}
+				}
 			}
 		}
+		
+		
 		
 		if(perfectMatches.size()==0) MatchingData.addNote("No matches found!");
 		
@@ -90,7 +120,7 @@ public class Matcher
 		//remove all the requiredKeys from the arg list
 		requiredKeys.removeAll(cmdLineArgs);
 		
-		//remove all the optionalKeys from the arg list
+		//remove all the cmdLineArgs from the optionalKeys list
 		optionalKeys.removeAll(cmdLineArgs);
 		
 		//return the number of remaining options
