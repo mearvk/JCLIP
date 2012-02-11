@@ -50,8 +50,6 @@ public class Test15 extends BaseTest
 			jclp.run();
 			
 			assertTrue(expectedResult.equals(actualResult));
-			
-			//fail();
 		}
 		catch (Exception e)
 		{						
@@ -64,7 +62,7 @@ public class Test15 extends BaseTest
 		@Override
 		public void execute()
 		{
-			Test15.actualResult = "Test14.Callback1";
+			Test15.actualResult = "Test15.Callback1";
 		}
 	}
 
@@ -73,7 +71,7 @@ public class Test15 extends BaseTest
 		@Override
 		public void execute()
 		{
-			Test15.actualResult = "Test14.Callback2";
+			Test15.actualResult = "Test15.Callback2";
 		}
 	}	
 }
