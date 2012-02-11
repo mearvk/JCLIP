@@ -54,14 +54,12 @@ public class Matcher
 		//keep only the OptionGroup instances that match both required and optional Options
 		perfectMatches.retainAll(optMatches);
 		
+		//use MAX_VALUE so it will necessarily be replaced first iteration
 		int bestMatchUnknownArgCount = Integer.MAX_VALUE;
 		
 		//remove imperfect matches			
-		for	(Iterator<OptionGroup> i=perfectMatches.iterator(); i.hasNext();)
-		{
-			//next group in the list
-			OptionGroup group = i.next();
-			
+		for	(OptionGroup group : (ArrayList<OptionGroup>)perfectMatches.clone())
+		{	
 			//number of unknown arguments (optional, required)
 			int currentMatchUnknownArgCount = getUnknownArgCount(group);
 			
@@ -70,34 +68,25 @@ public class Matcher
 			{
 				MatchingData.addNote("Removing OptionGroup "+group+" from the list of matches b/c it had "+getUnknownArgCount(group)+" unknown argument(s).");
 				
-				i.remove();	
+				perfectMatches.remove(group);	
 			}
 			//this match is at least as good as our current best so let's keep it
 			else 
 			{
+				//store the new best match in terms of number of unknown arguments
 				bestMatchUnknownArgCount = currentMatchUnknownArgCount;
 				
-				//make a copy to get around the weird iterator rule
-				ArrayList<OptionGroup> clone = (ArrayList<OptionGroup>) perfectMatches.clone();
-				
 				//remove all matches with a higher # of unknown args
-				for( Iterator<OptionGroup> j=clone.iterator(); j.hasNext(); )
-				//for(OptionGroup match : perfectMatches)
-				{
-					OptionGroup match = j.next();
-					
+				for( OptionGroup match : (ArrayList<OptionGroup>)perfectMatches.clone() )
+				{					
 					int unknownArgCount = getUnknownArgCount(match);
 					
 					if(unknownArgCount > bestMatchUnknownArgCount)
 					{
-						j.remove();
-						perfectMatches = clone;
-					}
+						perfectMatches.remove(match);					}
 				}
 			}
 		}
-		
-		
 		
 		if(perfectMatches.size()==0) MatchingData.addNote("No matches found!");
 		
@@ -106,7 +95,13 @@ public class Matcher
 		if(perfectMatches.size()==1)
 		{
 			this.matchingGroup = perfectMatches.get(0);
-			MatchingData.addNote("Matched on "+perfectMatches.get(0));
+			
+			int argCount = getUnknownArgCount(this.matchingGroup);
+			
+			if(argCount==0)
+				MatchingData.addNote("Perfect match found on OptionGroup "+perfectMatches.get(0)+".");
+			else
+				MatchingData.addNote("Imperfect match found on OptionGroup "+this.matchingGroup+" w/ "+argCount+" extra arg(s).");
 		}
 	}
 	
