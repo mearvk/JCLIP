@@ -30,11 +30,13 @@ public class JCLIP
 	 */
 	public JCLIP(String...args) throws Exception
 	{
+		//reset state (JUnit doesn't reset the JVM after each test)
 		OptionGroups.resetState();
 		MatchingData.resetState();
 		ValidationData.resetState();
 		CommandLineArguments.resetState();
 		
+		//store the CLArgs 
 		CommandLineArguments.processAndStoreRawArgs(args);
 		
 		//create and initialize a Matcher in order to perform CLI matching
@@ -70,7 +72,8 @@ public class JCLIP
 	 */
 	public void parseArgs() throws Exception
 	{
-		if(this.matcher==null) throw new NullPointerException("Matcher cannot be null!");
+		if(this.matcher==null) 
+			throw new NullPointerException("Matcher cannot be null!");
 		
 		this.matchingGroup = matcher.match();
 	}
@@ -83,7 +86,8 @@ public class JCLIP
 	 */
 	public void validateValues() throws Exception
 	{
-		if(this.validator==null) throw new NullPointerException("Validator cannot be null!");
+		if(this.validator==null) 
+			throw new NullPointerException("Validator cannot be null!");
 		
 		if(this.matchingGroup==null)
 		{
@@ -94,11 +98,14 @@ public class JCLIP
 			return;
 		}
 		
+		//validate the matched OptionGroup at the Option and OptionGroup level
 		this.validator.validate(this.matchingGroup);
 		
+		//print any notes that were stored during validation
 		if(ValidationData.hasNotes())
 			ValidationData.printNotes();
 		
+		//print any errors that were stored during validation
 		if(ValidationData.hasErrors())
 			ValidationData.printErrors();
 	}

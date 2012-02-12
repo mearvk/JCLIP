@@ -48,11 +48,7 @@ public class Matcher
 	private void finalizeMatchingOptionGroups() throws Exception
 	{
 		ArrayList<OptionGroup> reqMatches = this.matchedRequiredArgs;
-		ArrayList<OptionGroup> optMatches = this.matchedOptionalArgs;
 		ArrayList<OptionGroup> perfectMatches = (ArrayList<OptionGroup>) reqMatches.clone();
-		
-		//keep only the OptionGroup instances that match both required and optional Options
-		//perfectMatches.retainAll(optMatches);
 		
 		//use MAX_VALUE so it will necessarily be replaced first iteration
 		int bestMatchUnknownArgCount = Integer.MAX_VALUE;
@@ -120,9 +116,6 @@ public class Matcher
 		//remove all the requiredKeys from the arg list
 		cmdLineArgs.removeAll(requiredKeys);
 		
-		//remove all the cmdLineArgs from the optionalKeys list
-		//cmdLineArgs.removeAll(optionalKeys);
-		
 		//return the number of remaining options
 		return Math.abs(cmdLineArgs.size()-optionalKeys.size());
 	}
@@ -145,25 +138,6 @@ public class Matcher
 			else MatchingData.addNote("Matched OptionGroup "+optionGroup+" on all its REQUIRED options [FALSE]");
 		}	
 	}
-
-	/**private void matchOptionGroupsOnOptionalOptions() throws Exception
-	{			
-		//for each of the matched, required option groups check if the optional keys set contains all of the argument keys
-		for (OptionGroup optionGroup : OptionGroups.groups)
-		{
-			ArrayList<String> optionalOptions = optionGroup.optionalKeys;
-			ArrayList<String> cmdLineArgs = CommandLineArguments.keyList;
-								
-			//supersets are OK at this point
-			if (cmdLineArgs.containsAll(optionalOptions)) 
-			{
-				this.matchedOptionalArgs.add(optionGroup);	
-				MatchingData.addNote("Matched OptionGroup "+optionGroup+" on all its OPTIONAL options [TRUE]");
-			}
-			else MatchingData.addNote("Matched OptionGroup "+optionGroup+" on all its OPTIONAL options [FALSE]");
-		}
-
-	}*/
 
 	public void doCallbacks()
 	{

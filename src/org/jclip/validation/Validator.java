@@ -24,15 +24,8 @@ public class Validator
 		
 		if(group.validator==null) return;
 
-		
-		try 
-		{
-			group.validator.validateOptionGroup(group);
-		} 
-		catch (Exception e) 
-		{		
-			e.printStackTrace();
-		}
+		group.validator.validateOptionGroup(group);
+
 	}
 	
 	public void validateIndividualOptions(OptionGroup group)

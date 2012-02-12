@@ -1,20 +1,19 @@
 package org.jclip.testing;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 
 import org.jclip.JCLIP;
 import org.jclip.args.CommandLineArguments;
 import org.jclip.exceptions.DerpException;
+import org.jclip.exceptions.ValidationErrorException;
 import org.jclip.interfaces.Callback;
 import org.jclip.interfaces.OptionGroupValidator;
 import org.jclip.options.OptionGroup;
 import org.jclip.options.OptionGroups;
 import org.jclip.options.OptionalOption;
 import org.jclip.options.RequiredOption;
-import org.jclip.validation.ValidationData;
-import org.jclip.validation.ValidationErrorException;
 import org.junit.Test;
 
 
@@ -26,7 +25,7 @@ import org.junit.Test;
  */
 public class Test8 extends BaseTest
 {
-	String[] args = new String[]{"--cipher=rsa", "--keylength=1024", "--outputdir=herp", "--opt1", "--opt2"};	
+	String[] args = new String[]{"--cipher=rsad", "--keylength=1024", "--outputdir=herp", "--opt1", "--opt2"};	
 	
 	@Override
 	@Test
@@ -51,9 +50,15 @@ public class Test8 extends BaseTest
 		} 
 		catch (Exception e) 
 		{
-			boolean b = e instanceof ValidationErrorException;
-			
-			assertTrue("Test 8 failed", b);
+			if(e instanceof ValidationErrorException)
+			{
+				System.err.println(e);
+			}
+			else
+			{
+				System.err.println("Test8 caught an unknown exception of "+e.getClass());
+				fail();
+			}
 		}
 	}
 	
@@ -67,15 +72,19 @@ public class Test8 extends BaseTest
 			
 			int cipherIndex = keys.indexOf("cipher");
 			
-			if(cipherIndex==-1) throw new DerpException();
+			//cipher doesn't even exist
+			if(cipherIndex==-1) 
+				throw new DerpException();
 			
-			if(vals.get(cipherIndex)==null) throw new DerpException();
+			//somehow 'cipher' wasn't found in the List
+			if(vals.get(cipherIndex)==null) 
+				throw new DerpException();
 			
 			String cipherValue = vals.get(cipherIndex);
 			
-			if(cipherValue.equals("rsad")) return;
-			
-			ValidationData.addOptionGroupError("Expected 'cipher=rsad' but found instead 'cipher="+cipherValue+"'.");
+			if(cipherValue.equals("rsa")) return;
+						
+			throw new ValidationErrorException("Expected 'cipher=rsa' but found instead 'cipher="+cipherValue+"'.");
 		}
 	}
 
