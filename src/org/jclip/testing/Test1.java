@@ -44,7 +44,8 @@ public class Test1 extends BaseTest
 		}
 		catch (Exception e)
 		{
-			fail(e.getMessage());
+			System.err.println(e);
+			fail();
 		}		
 	}
 

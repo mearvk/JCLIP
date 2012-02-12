@@ -42,7 +42,7 @@ public class Test12 extends BaseTest
 		}
 		catch (Exception e)
 		{						
-			e.printStackTrace();
+			System.err.println(e);
 			fail();
 		}
 	}

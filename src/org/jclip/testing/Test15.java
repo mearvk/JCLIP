@@ -52,7 +52,8 @@ public class Test15 extends BaseTest
 		}
 		catch (Exception e)
 		{						
-			e.printStackTrace(); 
+			System.err.println(e);
+			fail();
 		}
 	}
 	

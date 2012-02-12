@@ -1,6 +1,5 @@
 package org.jclip.testing;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.jclip.JCLIP;
@@ -46,8 +45,10 @@ public class Test4 extends BaseTest
 		}
 		catch (Exception e)
 		{			
-			assertTrue("Something unexpected in Test4 occurred.",e instanceof SetEqualityException);
-			System.err.println("Test 4 succeeded in detecting set equality in OptionGroup instances");
+			if(e instanceof SetEqualityException)
+				System.err.println(e.getMessage());
+			else 
+				fail("Test4 failed.");
 		}
 	}
 }

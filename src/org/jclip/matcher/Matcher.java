@@ -25,9 +25,6 @@ public class Matcher
 		//find the option groups that have at least the required options
 		matchOptionGroupsOnRequiredOptions();
 		
-		//from the set of matching option groups find the option group that has the correct optional options
-		//matchOptionGroupsOnOptionalOptions();
-		
 		//try and find a perfect match
 		finalizeMatchingOptionGroups();
 		
@@ -48,13 +45,13 @@ public class Matcher
 	private void finalizeMatchingOptionGroups() throws Exception
 	{
 		ArrayList<OptionGroup> reqMatches = this.matchedRequiredArgs;
-		ArrayList<OptionGroup> perfectMatches = (ArrayList<OptionGroup>) reqMatches.clone();
+		ArrayList<OptionGroup> bestMatches = (ArrayList<OptionGroup>) reqMatches.clone();
 		
 		//use MAX_VALUE so it will necessarily be replaced first iteration
 		int bestMatchUnknownArgCount = Integer.MAX_VALUE;
 		
 		//remove imperfect matches			
-		for	(OptionGroup group : (ArrayList<OptionGroup>)perfectMatches.clone())
+		for	(OptionGroup group : (ArrayList<OptionGroup>)bestMatches.clone())
 		{	
 			//number of unknown arguments (optional, required)
 			int currentMatchUnknownArgCount = getUnknownArgCount(group);
@@ -62,9 +59,11 @@ public class Matcher
 			//if it's worse than our best match in terms of # of unknown args
 			if( currentMatchUnknownArgCount > bestMatchUnknownArgCount )
 			{
+				//store an explanation of what we're doing
 				MatchingData.addNote("Removing OptionGroup "+group+" from the list of matches b/c it had "+currentMatchUnknownArgCount+" unknown argument(s).");
 				
-				perfectMatches.remove(group);	
+				//remove the OptionGroup from the set of best matches
+				bestMatches.remove(group);	
 			}
 			//this match is at least as good as our current best so let's keep it
 			else 
@@ -74,33 +73,33 @@ public class Matcher
 			}
 		}
 		
-		//remove all matches with a higher # of unknown args
-		for( OptionGroup match : (ArrayList<OptionGroup>)perfectMatches.clone() )
+		//remove any old best matches from the set of best matches
+		for( OptionGroup match : (ArrayList<OptionGroup>)bestMatches.clone() )
 		{					
 			int unknownArgCount = getUnknownArgCount(match);
 			
 			if(unknownArgCount > bestMatchUnknownArgCount)
 			{
-				perfectMatches.remove(match);					
+				bestMatches.remove(match);					
 			}
 		}
 		
-		if(perfectMatches.size()==0) MatchingData.addNote("No matches found!");
+		if(bestMatches.size()==0) MatchingData.addNote("No matches found!");
 		
-		if(perfectMatches.size()>1) 
+		if(bestMatches.size()>1) 
 		{
 			MatchingData.addError("More than one match found!");
 			throw new AmbiguousMatchException();
 		}
 		
-		if(perfectMatches.size()==1)
+		if(bestMatches.size()==1)
 		{
-			this.matchingGroup = perfectMatches.get(0);
+			this.matchingGroup = bestMatches.get(0);
 			
 			int argCount = getUnknownArgCount(this.matchingGroup);
 			
 			if(argCount==0)
-				MatchingData.addNote("Perfect match found on OptionGroup "+perfectMatches.get(0)+".");
+				MatchingData.addNote("Perfect match found on OptionGroup "+bestMatches.get(0)+".");
 			else
 				MatchingData.addNote("Imperfect match found on OptionGroup "+this.matchingGroup+" w/ "+argCount+" extra arg(s).");
 		}

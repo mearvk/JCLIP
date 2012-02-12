@@ -1,6 +1,7 @@
 package org.jclip.testing;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.jclip.JCLIP;
 import org.jclip.interfaces.Callback;
@@ -47,8 +48,8 @@ public class Test9 extends BaseTest
 		} 
 		catch (Exception e) 
 		{
-			e.printStackTrace();
-		}
+			System.err.println(e);
+			fail();		}
 	}
 	
 	private class KeyLengthValidator implements OptionValidator

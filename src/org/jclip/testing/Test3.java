@@ -1,13 +1,13 @@
 package org.jclip.testing;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.jclip.JCLIP;
 import org.jclip.interfaces.Callback;
 import org.jclip.options.OptionGroup;
 import org.jclip.options.OptionGroups;
 import org.jclip.options.RequiredOption;
-import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -51,7 +51,8 @@ public class Test3 extends BaseTest
 		}
 		catch (Exception e)
 		{
-			Assert.fail(e.getMessage());
+			System.err.println(e);
+			fail();
 		}	
 	}
 
