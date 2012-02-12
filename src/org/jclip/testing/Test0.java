@@ -43,5 +43,7 @@ public class Test0 extends BaseTest
 		assertTrue("Keysets should NOT be equal; note ordering of ArrayList additions.", !b2);
 		assertTrue("Keyset should containAll of its twin list.", b3);
 		assertTrue("Keyset should containAll of its twin list.", b4);
+		
+		System.err.println("Test0 succeeded.");
 	}
 }

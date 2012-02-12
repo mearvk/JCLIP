@@ -4,13 +4,13 @@ import org.jclip.args.CommandLineArguments;
 
 public class OptionProcessingUtils 
 {
-	public static String getOptionValueFromOptionKey(String s, CommandLineArguments args) throws Exception
+	public static String getOptionValueFromOptionKey(String s) throws Exception
 	{
-		for(String key : args.keyList)
+		for(String key : CommandLineArguments.keyList)
 		{
 			if(key.equalsIgnoreCase(s))
 			{
-				return args.valueList.get(args.keyList.indexOf(key));
+				return CommandLineArguments.valueList.get(CommandLineArguments.keyList.indexOf(key));
 			}
 		}
 		

@@ -1,9 +1,9 @@
 package org.jclip.matcher;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import org.jclip.args.CommandLineArguments;
+import org.jclip.exceptions.AmbiguousMatchException;
 import org.jclip.exceptions.NoOptionGroupsException;
 import org.jclip.interfaces.Callback;
 import org.jclip.options.OptionGroup;
@@ -26,7 +26,7 @@ public class Matcher
 		matchOptionGroupsOnRequiredOptions();
 		
 		//from the set of matching option groups find the option group that has the correct optional options
-		matchOptionGroupsOnOptionalOptions();
+		//matchOptionGroupsOnOptionalOptions();
 		
 		//try and find a perfect match
 		finalizeMatchingOptionGroups();
@@ -52,7 +52,7 @@ public class Matcher
 		ArrayList<OptionGroup> perfectMatches = (ArrayList<OptionGroup>) reqMatches.clone();
 		
 		//keep only the OptionGroup instances that match both required and optional Options
-		perfectMatches.retainAll(optMatches);
+		//perfectMatches.retainAll(optMatches);
 		
 		//use MAX_VALUE so it will necessarily be replaced first iteration
 		int bestMatchUnknownArgCount = Integer.MAX_VALUE;
@@ -66,7 +66,7 @@ public class Matcher
 			//if it's worse than our best match in terms of # of unknown args
 			if( currentMatchUnknownArgCount > bestMatchUnknownArgCount )
 			{
-				MatchingData.addNote("Removing OptionGroup "+group+" from the list of matches b/c it had "+getUnknownArgCount(group)+" unknown argument(s).");
+				MatchingData.addNote("Removing OptionGroup "+group+" from the list of matches b/c it had "+currentMatchUnknownArgCount+" unknown argument(s).");
 				
 				perfectMatches.remove(group);	
 			}
@@ -75,22 +75,27 @@ public class Matcher
 			{
 				//store the new best match in terms of number of unknown arguments
 				bestMatchUnknownArgCount = currentMatchUnknownArgCount;
-				
-				//remove all matches with a higher # of unknown args
-				for( OptionGroup match : (ArrayList<OptionGroup>)perfectMatches.clone() )
-				{					
-					int unknownArgCount = getUnknownArgCount(match);
-					
-					if(unknownArgCount > bestMatchUnknownArgCount)
-					{
-						perfectMatches.remove(match);					}
-				}
+			}
+		}
+		
+		//remove all matches with a higher # of unknown args
+		for( OptionGroup match : (ArrayList<OptionGroup>)perfectMatches.clone() )
+		{					
+			int unknownArgCount = getUnknownArgCount(match);
+			
+			if(unknownArgCount > bestMatchUnknownArgCount)
+			{
+				perfectMatches.remove(match);					
 			}
 		}
 		
 		if(perfectMatches.size()==0) MatchingData.addNote("No matches found!");
 		
-		if(perfectMatches.size()>1) MatchingData.addError("More than one match found!");
+		if(perfectMatches.size()>1) 
+		{
+			MatchingData.addError("More than one match found!");
+			throw new AmbiguousMatchException();
+		}
 		
 		if(perfectMatches.size()==1)
 		{
@@ -113,13 +118,13 @@ public class Matcher
 		ArrayList<String> cmdLineArgs = (ArrayList<String>) CommandLineArguments.keyList.clone();
 		
 		//remove all the requiredKeys from the arg list
-		requiredKeys.removeAll(cmdLineArgs);
+		cmdLineArgs.removeAll(requiredKeys);
 		
 		//remove all the cmdLineArgs from the optionalKeys list
-		optionalKeys.removeAll(cmdLineArgs);
+		//cmdLineArgs.removeAll(optionalKeys);
 		
 		//return the number of remaining options
-		return requiredKeys.size() + optionalKeys.size();
+		return Math.abs(cmdLineArgs.size()-optionalKeys.size());
 	}
 
 	private void matchOptionGroupsOnRequiredOptions() throws Exception
@@ -141,7 +146,7 @@ public class Matcher
 		}	
 	}
 
-	private void matchOptionGroupsOnOptionalOptions() throws Exception
+	/**private void matchOptionGroupsOnOptionalOptions() throws Exception
 	{			
 		//for each of the matched, required option groups check if the optional keys set contains all of the argument keys
 		for (OptionGroup optionGroup : OptionGroups.groups)
@@ -150,7 +155,7 @@ public class Matcher
 			ArrayList<String> cmdLineArgs = CommandLineArguments.keyList;
 								
 			//supersets are OK at this point
-			if (optionalOptions.containsAll(cmdLineArgs)) 
+			if (cmdLineArgs.containsAll(optionalOptions)) 
 			{
 				this.matchedOptionalArgs.add(optionGroup);	
 				MatchingData.addNote("Matched OptionGroup "+optionGroup+" on all its OPTIONAL options [TRUE]");
@@ -158,7 +163,7 @@ public class Matcher
 			else MatchingData.addNote("Matched OptionGroup "+optionGroup+" on all its OPTIONAL options [FALSE]");
 		}
 
-	}
+	}*/
 
 	public void doCallbacks()
 	{

@@ -27,14 +27,14 @@ public class Test16 extends BaseTest
 		{
 			JCLIP jclp = new JCLIP(args);
 			
-			OptionGroup og1 = new OptionGroup("Test15.og1");
+			OptionGroup og1 = new OptionGroup("Test16.og1");
 			og1.addOptionalOption(new OptionalOption("opt1"));
 			og1.addOptionalOption(new OptionalOption("opt2"));
 			og1.addOptionalOption(new OptionalOption("missing1"));
 			
 			OptionGroups.addOptionGroup(og1);
 			
-			OptionGroup og2 = new OptionGroup("Test15.og2");
+			OptionGroup og2 = new OptionGroup("Test16.og2");
 			og2.addOptionalOption(new OptionalOption("opt1"));
 			og2.addOptionalOption(new OptionalOption("opt2"));
 			og2.addOptionalOption(new OptionalOption("missing2"));
@@ -48,7 +48,15 @@ public class Test16 extends BaseTest
 		}
 		catch (Exception e)
 		{						
-			assertTrue("Test16 caught a weird exception.", e instanceof AmbiguousMatchException);
+			if(e instanceof AmbiguousMatchException)
+			{
+				System.err.println(e);
+			}
+			else
+			{
+				System.err.println("Test16 caught an unknown exception of "+e.getClass());
+				fail();
+			}
 		}
 	}
 }

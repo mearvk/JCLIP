@@ -84,7 +84,7 @@ public class Test8 extends BaseTest
 		@Override
 		public void execute()
 		{
-			System.out.println("Test8 callback called...");
+			System.err.println("Test8 callback called as expected.");
 		}
 	}	
 }

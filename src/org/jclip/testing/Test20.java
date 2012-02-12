@@ -1,9 +1,9 @@
 package org.jclip.testing;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import org.jclip.JCLIP;
-import org.jclip.exceptions.DuplicateOptionException;
+import org.jclip.exceptions.UnknownArgumentPrefixException;
 import org.jclip.options.OptionGroup;
 import org.jclip.options.OptionGroups;
 import org.jclip.options.OptionalOption;
@@ -38,10 +38,15 @@ public class Test20 extends BaseTest
 		}
 		catch (Exception e)
 		{
-			if(e instanceof DuplicateOptionException)
-				System.err.println(e.getMessage());
+			if(e instanceof UnknownArgumentPrefixException)
+			{
+				System.err.println(e);
+			}
 			else 
-				fail("Test19 failed.");
+			{
+				System.err.println("Test20 caught an unknown exception of "+e.getClass());
+				fail();
+			}
 		}
 	}
 }

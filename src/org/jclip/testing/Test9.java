@@ -64,8 +64,6 @@ public class Test9 extends BaseTest
 			
 			Double distance = Math.abs(base2log-round);
 			
-			System.out.println("distance is "+distance);
-			
 			if(Math.abs(distance)!=0d) 
 				ValidationData.addOptionError(value+" doesn't appear to be a valid value for the keylength parameter.");
 			else 
@@ -79,7 +77,7 @@ public class Test9 extends BaseTest
 		@Override
 		public void execute()
 		{
-			System.out.println("Test9 callback called...");
+			System.err.println("Test9 callback called as expected.");
 		}
 	}	
 }

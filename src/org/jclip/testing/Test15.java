@@ -42,7 +42,6 @@ public class Test15 extends BaseTest
 			og2.addOptionalOption(new OptionalOption("opt1"));
 			og2.addOptionalOption(new OptionalOption("opt2"));
 			og2.addOptionalOption(new OptionalOption("opt3"));
-			
 			og2.addCallback(new Callback2());
 			
 			OptionGroups.addOptionGroup(og2);

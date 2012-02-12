@@ -1,6 +1,7 @@
 package org.jclip.args;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jclip.exceptions.UnknownArgumentPrefixException;
 
 public class ArgParser
 {
@@ -8,14 +9,15 @@ public class ArgParser
 	public static String[] acceptedPrefixTokens = new String[]{ "--","-" };
 	public static String[] acceptedBridgeTokens = new String[]{ "=" };	
 	
-	public static void processArgs(String...rawArgs)
+	public static void processArgs(String...rawArgs) throws Exception
 	{
+		//for every CLarg
 		for (String arg : rawArgs)
 		{
 			String result = null;
 						
-			try
-			{
+			//try
+			//{
 				//strip the prefix
 				result = stripAndSavePrefix(arg);
 				
@@ -30,11 +32,11 @@ public class ArgParser
 				
 				//should have an empty string here, exception for debugging purposes
 				if(result.length()>0) throw new Exception("Oops, something happened while trying to parse the CL args");
-			}
-			catch (Exception e)
-			{				
-				e.printStackTrace();
-			}
+			//}
+			//catch (Exception e)
+			//{				
+			//	System.err.println(e);
+			//}
 		}
 	}
 	
@@ -59,7 +61,7 @@ public class ArgParser
 			}
 		}
 		
-		throw new Exception("No valid prefix found for argument '"+arg+"'");
+		throw new UnknownArgumentPrefixException(arg);
 	}
 	
 	private static String stripAndSaveKey(String arg) throws Exception

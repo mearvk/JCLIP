@@ -1,15 +1,12 @@
 package org.jclip.validation;
 
-import org.jclip.args.CommandLineArguments;
 import org.jclip.exceptions.NoOptionGroupException;
 import org.jclip.options.Option;
 import org.jclip.options.OptionGroup;
 import org.jclip.utils.OptionProcessingUtils;
 
 public class Validator 
-{	
-	private CommandLineArguments args=null;
-	
+{		
 	public Validator()
 	{	
 		
@@ -48,7 +45,7 @@ public class Validator
 			
 			try 
 			{
-				option.validator.validateOption(OptionProcessingUtils.getOptionValueFromOptionKey(option.key,args));
+				option.validator.validateOption(OptionProcessingUtils.getOptionValueFromOptionKey(option.key));
 			} 
 			catch (Exception e) 
 			{			

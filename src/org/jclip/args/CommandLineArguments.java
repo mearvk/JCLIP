@@ -17,7 +17,7 @@ public class CommandLineArguments
 		valueList = new ArrayList<String>();
 	}
 	
-	public static void processAndStoreRawArgs(String...args)
+	public static void processAndStoreRawArgs(String...args) throws Exception
 	{	
 		ArgParser.processArgs(args);
 	}
